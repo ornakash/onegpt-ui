@@ -1,5 +1,6 @@
 export default {
     build: {
+      outDir: 'umd',
       minify: true,
       lib: {
         entry: 'main.js',
