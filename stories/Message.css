@@ -1,0 +1,21 @@
+.msg{
+    color: white;
+    font-size: .85rem;
+    background-color: #393849;
+    width: 90%;
+    height: fit-content;
+    text-align: center;
+}
+
+
+.from-ai{
+    margin-left: 5px;
+    margin-right: auto;
+    color: #23838D;
+    font-weight: 700;
+}
+
+.from-user{
+    margin-left: auto;
+    margin-right: 5px;
+}

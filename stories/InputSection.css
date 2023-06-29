@@ -1,0 +1,16 @@
+
+.input-div{
+    width: 100%;
+    display: block;
+}
+
+.user-inpt {
+    width: 90%;
+    /* margin: 10px auto; */
+    /* margin: 0px auto; */
+    margin-left: 5%;
+    background-color: hsl(245, 19%, 14%);
+    color: white;
+    border: 1px solid white;
+    height: 25px;
+}
