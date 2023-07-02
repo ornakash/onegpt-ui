@@ -17,17 +17,17 @@ export const createMessage = ({
   spanWrapper.className = `span-wrapper${spanWrapperClass}`;
 
   //the p will store the text
-  const span = document.createElement('span');
-  span.innerHTML = content;
-  spanWrapper.append(span);
+  const spanWithResponse = document.createElement('span');
+  spanWithResponse.innerHTML = content;
 
   if(!user && !first){ 
-    const span = document.createElement('span');
-    span.className = 'cursor-gpt';
-    span.innerHTML = '|';
-    spanWrapper.append(span);
+    const spanCursor = document.createElement('span');
+    spanCursor.className = 'cursor-gpt';
+    spanCursor.innerHTML = '|';
+    spanWithResponse.append(spanCursor);
   }
-
+  
+  spanWrapper.append(spanWithResponse);
   message.append(spanWrapper)
 
   

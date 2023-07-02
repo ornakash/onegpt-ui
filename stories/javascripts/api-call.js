@@ -11,13 +11,9 @@ export const params = {
  */
 export function setBotText(text, done){
     const messageDiv = document.querySelector(".writing");
-    console.log(messageDiv);
     if(messageDiv){ 
-        const pElement = messageDiv.firstChild;
-        console.log(pElement);
-        console.log('from setbotText')
-        console.log(text);
-        pElement.innerHTML = text.trimStart();
+        const spanElement = messageDiv.firstChild;
+        spanElement.innerHTML = `${text.trimStart()} <span class='cursor-gpt'> | </span>`;
     }
 
     if (done) {
