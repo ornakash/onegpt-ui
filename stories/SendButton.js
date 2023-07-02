@@ -11,12 +11,12 @@ export const createSendButton = ({
 
   sendBtn.type = 'button';
   sendBtn.value = label;
-  sendBtn.className = 'button-send'
+  sendBtn.className = 'button-send';
   sendBtn.style.backgroundColor = backgroundColor;
 
   sendBtn.addEventListener('click', onClick)
   
-
+  console.log(sendBtn);
 
   return sendBtn;
 };

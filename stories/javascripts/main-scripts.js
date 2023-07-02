@@ -1,7 +1,13 @@
 import { createMessage } from "../Message";
-
+import { addUrl, askGpt, setBotText } from "./api-call";
 
 let chatAllowed = true;
+
+export function attachEventListeners(){
+  document.querySelector('.button-send').addEventListener('click', sendChat);
+  document.querySelector('.user-inpt').addEventListener('focus', allowEnter);
+  document.querySelector('.user-inpt').addEventListener('focusout', forbidEnter);
+}
 
 export function sendChat(){
     
@@ -9,12 +15,12 @@ export function sendChat(){
   
   //get the user input
   const textInput = document.querySelector('.user-inpt');
-  const textValue = textInput.value;
+  const userQuery = textInput.value;
 
-  console.log(textValue);
+  console.log(userQuery);
   
   //check for no value or chat not allowed
-  if(!textValue || !chatAllowed){
+  if(!userQuery || !chatAllowed){
     return;
   }
   
@@ -22,24 +28,28 @@ export function sendChat(){
 
     //create element to add to the screen
     const messagesBox = document.querySelector('.messages');
-    const userMsg = createMessage({content: textValue, user: true});
+    const userMsg = createMessage({content: userQuery, user: true, first: false});
     messagesBox.prepend(userMsg)
   
     textInput.value = '';
   
-    setTimeout(receiveAiMessage, 1000);
-  
+    receiveAiMessage(userQuery);
+
   }
 
-  /**
-   * Function will call api wait for AI response and add it into the chat interface
+  /** Function will call api wait for AI response and add it into the chat interface
+   * 
+   * @param {string} userMsg 
    */
-  function receiveAiMessage(){
+  function receiveAiMessage(userMsg){
     //messages box is the container for all the messages
     const messagesBox = document.querySelector('.messages');
   
-    //make the new box chat instnace
-    const aiResponse = createMessage({content: 'Your AI response', user: false});
+    let chat = [{'utterance': userMsg, speaker: 'user'}];
+    askGpt(chat, setBotText, addUrl);
+
+    //make the new box chat instance
+    const aiResponse = createMessage({content: '', user: false});
   
     //prepend as first element in the messages container
     messagesBox.prepend(aiResponse);
@@ -73,3 +83,5 @@ export function allowEnter(){
 export function forbidEnter(){
   window.removeEventListener('keydown', checkForEnter)
 }
+
+

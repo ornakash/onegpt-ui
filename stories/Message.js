@@ -3,7 +3,8 @@ import './Message.css';
 
 export const createMessage = ({
   content,
-  user = true
+  user = true,
+  first
 }) => {
   const message = document.createElement('div');
   
@@ -11,10 +12,23 @@ export const createMessage = ({
   const isUserClass = user ? 'from-user' : 'from-ai';
   message.className = `msg ${isUserClass}`;
 
-  const p = document.createElement('p');
-  p.innerHTML = content;
+  const spanWrapper = document.createElement('div');
+  const spanWrapperClass = !user && !first ? ' writing' : ''
+  spanWrapper.className = `span-wrapper${spanWrapperClass}`;
 
-  message.append(p);
+  //the p will store the text
+  const span = document.createElement('span');
+  span.innerHTML = content;
+  spanWrapper.append(span);
+
+  if(!user && !first){ 
+    const span = document.createElement('span');
+    span.className = 'cursor-gpt';
+    span.innerHTML = '|';
+    spanWrapper.append(span);
+  }
+
+  message.append(spanWrapper)
 
   
   return message;

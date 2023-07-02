@@ -9,14 +9,25 @@ export default {
       return createChatPage({ label, ...args });
     },
     argTypes: {
-      color: { control: 'color' },
-      label: {control: 'text'},
+      contentType: {control: 'text'},
+      apiKey: {control: 'text'},
+      project: {control: 'text'},
+      cache: {control: 'boolean'},
+      metadeta: {control: 'text'},
+      threshold: {control: 'number'},
+      maxItems: {control: 'number'},
+      temperature: {control: 'number'}
     },
   };
 
 
   export const Primary = {
     args: {
-        color: 'lightgray'
+      contentType: 'application/json',
+      apiKey: '2b2e4354-25cc-4972-994e-da93ea0192a9',
+      cache: true,
+      threshold: .7,
+      maxItems: 10,
+      temperature: .1      
     },
 };

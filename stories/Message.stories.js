@@ -11,6 +11,7 @@ export default {
     argTypes: {
       content: {control: 'text'},
       user: { control: 'boolean' },
+      first: {control: 'boolean'}
     },
   };
 
@@ -25,6 +26,6 @@ export default {
   export const Ai = {
     args: {
       content: 'Ai\'s response' ,
-      user: false
+      user: false,
     },
   };

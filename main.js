@@ -1,16 +1,18 @@
 import javascriptLogo from './javascript.svg'
 import viteLogo from '/vite.svg'
-import { createPage } from './stories/Page'
-
-
+import { createChatPage } from './stories/ChatPage'
+import {attachEventListeners} from './stories/javascripts/main-scripts'
 
 // document.querySelector('#app').createPage()
 
-document.querySelector('body').innerHTML = `
-  <button type="button" class="storybook-button storybook-button--medium storybook-button--primary">TestingBtn</button>
-  <div class="storybook-chat-background"> </div>
+const chatPage = createChatPage({})
+console.log(chatPage);
+
+document.querySelector('body').innerHTML = chatPage.outerHTML;
 
 
-`
-
+document.addEventListener('DOMContentLoaded', () => {
+  console.log('document loaded');
+  attachEventListeners();
+});
 
