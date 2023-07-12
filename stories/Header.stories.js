@@ -1,28 +1,20 @@
 import { createHeader } from './Header';
 
 export default {
-  title: 'Example/Header',
+  title: 'ChatComponents/Header',
   // This component will have an automatically generated Autodocs entry: https://storybook.js.org/docs/html/writing-docs/autodocs
   tags: ['autodocs'],
-  render: (args) => createHeader(args),
-  parameters: {
-    // More on how to position stories at: https://storybook.js.org/docs/html/configure/story-layout
-    layout: 'fullscreen',
+  render: ({label,  ...args }) => {
+    // You can either use a function to create DOM elements or use a plain html string!
+    // return `<div>${label}</div>`;
+    return createHeader({label, ...args });
   },
-  // More on argTypes: https://storybook.js.org/docs/html/api/argtypes
-  argTypes: {
-    onLogin: { action: 'onLogin' },
-    onLogout: { action: 'onLogout' },
-    onCreateAccount: { action: 'onCreateAccount' },
+    argTypes: {
   },
 };
 
-export const LoggedIn = {
+export const Primary = {
   args: {
-    user: {
-      name: 'Jane Doe',
-    },
   },
 };
 
-export const LoggedOut = {};

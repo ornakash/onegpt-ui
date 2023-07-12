@@ -1,8 +1,11 @@
 div.sidebar{
-    width: 25vw;
-    height: 100vh;
-    background-color: #1D1C29;
+    width: 60vw;
+    height: 60vh;
+    /* background-color: #1D1C29; */
     margin: 0 auto;
     padding: 10px;
     position: relative;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    gap: 10px;
 }

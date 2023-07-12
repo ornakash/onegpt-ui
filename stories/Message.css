@@ -1,24 +1,22 @@
 .msg{
     color: white;
-    font-size: .85rem;
+    font-size: 16px;
     background-color: #393849;
-    width: 90%;
-    min-height: 40px;
+    padding: 22px 25px 20px 25px;
     height: fit-content;
     text-align: center;
-    padding: 5px;
+    font-family: IbmPlex;
     
 }
 
 
 .from-ai{
-    margin-left: 5px;
     margin-right: auto;
-    color: #23838D;
-    font-weight: 700;
+    color: #EDEDED;
 }
 
 .from-user{
+    color: #00FFFF;
     margin-left: auto;
     margin-right: 5px;
 }

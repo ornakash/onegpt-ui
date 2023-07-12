@@ -12,12 +12,38 @@ export default {
         onfocus: {action: 'onFocus'},
       color: { control: 'color' },
       label: {control: 'text'},
+      useLabel: {control: 'text'}, 
+      classNames: {control: 'object'}
     },
   };
 
 
   export const Primary = {
     args: {
-        color: 'lightgray'
+        useLabel: 'text',
+        classNames: {
+          inputSection: 'input-div', 
+          sendBtn: 'send-input-btn'
+        }
     },
   };
+
+  export const FileInput = {
+    args: {
+      useLabel: 'file',
+      classNames: {
+        inputSection: 'input-div', 
+        sendBtn: 'send-input-btn'
+      }
+    }
+  }
+
+  export const Disabled = {
+    args: {
+      useLabel: 'disabled',
+      classNames: {
+        inputSection: 'input-div input-disabled', 
+        sendBtn: 'send-input-btn input-disabled-btn'
+      }
+    }
+  }

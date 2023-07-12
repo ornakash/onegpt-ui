@@ -22,7 +22,7 @@ export function setBotText(text, done){
         messageDiv.className = 'span-wrapper';
         setTimeout(() => { 
             document.querySelector('.cursor-gpt').remove();
-        }, 500);
+        }, 250);
     }
 }
 
