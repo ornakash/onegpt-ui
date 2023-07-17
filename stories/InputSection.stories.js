@@ -1,4 +1,5 @@
-import { createInputSection } from "./InputSection";
+import { createInputSection, handleSubmitHTTP } from "./InputSection";
+import { sendChat } from "./javascripts/main-scripts";
 
 export default {
     title: 'ChatComponents/InputSection',
@@ -9,11 +10,9 @@ export default {
       return createInputSection({ label, ...args });
     },
     argTypes: {
-        onfocus: {action: 'onFocus'},
-      color: { control: 'color' },
-      label: {control: 'text'},
       useLabel: {control: 'text'}, 
-      classNames: {control: 'object'}
+      classNames: {control: 'object'},
+      sendBtnCallback: {control: 'function'}
     },
   };
 
@@ -24,7 +23,8 @@ export default {
         classNames: {
           inputSection: 'input-div', 
           sendBtn: 'send-input-btn'
-        }
+        },
+        sendBtnCallback: sendChat
     },
   };
 
@@ -34,7 +34,8 @@ export default {
       classNames: {
         inputSection: 'input-div', 
         sendBtn: 'send-input-btn'
-      }
+      },
+      sendBtnCallback: handleSubmitHTTP
     }
   }
 
@@ -44,6 +45,17 @@ export default {
       classNames: {
         inputSection: 'input-div input-disabled', 
         sendBtn: 'send-input-btn input-disabled-btn'
-      }
+      },
+      sendBtnCallback: undefined
+    }
+  }
+
+  export const Contact = {
+    args:{ 
+      useLabel: 'contact',
+      classNames: {
+        inputSection: 'input-div',
+        sendBtn: 'send-input-btn-no-display'
+      },
     }
   }

@@ -44,7 +44,7 @@ export const createChatPage = ({
     const messagesWrapper = document.createElement('div');
     messagesWrapper.className = 'messages-wrapper';
 
-    let message = createMessage({content: 'Your AI assistant...', user: false, first: true});
+    let message = createMessage({content: 'Your AI assistant...', user: false, first: true, buttons: false});
     message.className = 'msg from-ai'
 
     messagesWrapper.append(message)

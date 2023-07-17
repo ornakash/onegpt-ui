@@ -9,21 +9,22 @@ export const params = {
  * @param {string} text text we get from the askGPT stream
  * @param {boolean} done true if stream is completed
  */
-export function setBotText(text, done){
+export function setBotText(text){
     const messageDiv = document.querySelector(".writing");
     if(messageDiv){ 
         const spanElement = messageDiv.firstChild;
         spanElement.innerHTML = `${text.trimStart()} <span class='cursor-gpt'> | </span>`;
     }
+}
 
-    if (done) {
-        //remove the writing class
-        console.log('entering done');
-        messageDiv.className = 'span-wrapper';
-        setTimeout(() => { 
-            document.querySelector('.cursor-gpt').remove();
-        }, 250);
-    }
+export function onStreamFinish(){
+   //remove the writing class and cursor
+   const messageDiv = document.querySelector(".writing");
+   console.log('entering done');
+   messageDiv.className = 'span-wrapper';
+   setTimeout(() => { 
+       document.querySelector('.cursor-gpt').remove();
+   }, 250);
 }
 
 export function addUrl(hrefs, texts){
@@ -38,14 +39,27 @@ export function addUrl(hrefs, texts){
     // writingEl.parentElement.insertBefore(container.firstChild, writingEl);
 }
 
+export function gptEventStream(chat) {
+  const stream = new EventTarget();
+  const createContentEvent = (text) => stream.dispatchEvent(new CustomEvent("content", { detail: text }));
+  const createMetadataEvent = (metadata) => stream.dispatchEvent(new CustomEvent("metadata", { detail: metadata }));
+  const createDoneEvent = () => {
+    stream.dispatchEvent(new CustomEvent("done", { detail: true }));
+  };
+  
+  console.log("poop")
+  console.log(chat)
+  askGpt(chat, createContentEvent, createMetadataEvent, createDoneEvent);
+  return stream;
+}
+
 /**
  * 
  * @param {*} chat ['utterance': 'userMsg', 'speaker': 'user']
  * @param {*} onText helper function that writes responses into the UI as they come
- * @param {*} onURL adds the URL source that we prepend before the AI response
+ * @param {*} onMetadata adds the URL source that we prepend before the AI response
  */
-export function askGpt(chat, onText, onURL) {
-    console.log(chat);
+export function askGpt(chat, onText, onMetadata, onFinish) {
     let writeMarkdown = "";
     onText("", false);
     let abortController = new AbortController();
@@ -91,6 +105,8 @@ export function askGpt(chat, onText, onURL) {
                     onText(writeMarkdown, true);
                   controller.close();
                   abortController = undefined;
+                  console.log(onFinish)
+                  if (onFinish) onFinish();
                   return;
                 }
                 const decodedValue = new TextDecoder('utf-8').decode(value);
@@ -103,7 +119,7 @@ export function askGpt(chat, onText, onURL) {
                     first = false;
                     try {
                       const jsonData = JSON.parse(line);
-                      onURL(jsonData["url"], jsonData["country_name"]);
+                      onMetadata(jsonData);
                     } catch (e) {}
                   }
                   else {

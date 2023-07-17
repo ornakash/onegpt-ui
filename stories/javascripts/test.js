@@ -1,21 +1,22 @@
-console.log(JSON.stringify({
-    input: 'This is a test chat',
-output_type: "json",
-multilingual: {
-  enabled: true,
-},
-steps: [
-  {
-    skill: "bizgpt",
-  params: {
-      project: "countrypedia-v25",
-    cache: true,
-  //   metadata: urlParams,
-    threshold: 0.7,
-    max_items: 10,
-    temperature: 0.01,
-  }
-}
-]
-}),);
+import { ChatUI } from "../../main";
 
+export let chatUI = undefined;
+
+export function buttonsStart(){
+  const div = document.createElement('div');
+  div.style.width = '100px'
+  div.style.height = '100px'
+  div.style.backgroundColor = 'red'
+
+  div.addEventListener('click', () => {
+    chatUI = bringUpChatPage()
+  });
+
+  return div
+}
+
+
+function bringUpChatPage(){
+  const wrapper = document.body;
+  return new ChatUI(wrapper);
+}

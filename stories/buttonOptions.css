@@ -1,0 +1,10 @@
+.button-options-input-div{
+    flex: 1;
+    margin-left: auto;
+    gap: 10px;
+}
+
+.button-options-input-div .msg{
+    flex-basis: 100%;
+    margin-bottom: 10px;
+}

@@ -11,7 +11,8 @@ export default {
     argTypes: {
       content: {control: 'text'},
       user: { control: 'boolean' },
-      first: {control: 'boolean'}
+      first: {control: 'boolean'},
+      buttons: {control: 'boolean'}
     },
   };
 
@@ -29,3 +30,9 @@ export default {
       user: false,
     },
   };
+
+  export const Buttons = {
+    args: {
+      buttons: true
+    }
+  }

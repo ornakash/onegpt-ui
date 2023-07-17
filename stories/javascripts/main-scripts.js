@@ -1,4 +1,4 @@
-import { createInputSection } from "../InputSection";
+import { createInputSection, handleSubmitHTTP } from "../InputSection";
 import { createMessage } from "../Message";
 import { addUrl, askGpt, setBotText } from "./api-call";
 import { createDocumentChangeObserver } from "./mutation-observer";
@@ -6,13 +6,13 @@ import { createDocumentChangeObserver } from "./mutation-observer";
 let chatAllowed = true;
 
 export function attachEventListeners(){
-  document.querySelector('.send-input-btn').addEventListener('click', sendChat)
-  document.querySelector('.user-inpt').addEventListener('focus', allowEnter);
-  document.querySelector('.user-inpt').addEventListener('focusout', forbidEnter);
+  // document.querySelector('.send-input-btn').addEventListener('click', sendChat)
+  // document.querySelector('.user-inpt').addEventListener('focus', allowEnter);
+  // document.querySelector('.user-inpt').addEventListener('focusout', forbidEnter);
   createDocumentChangeObserver();
 }
 
-  export function sendChat(){
+export function sendChat(){
     
   console.log('sending chat');  
   
@@ -31,13 +31,12 @@ export function attachEventListeners(){
 
   //send the users messages into the UI
   const messagesBox = document.querySelector('.messages-wrapper');
-  const userMsg = createMessage({content: userQuery, user: true, first: false});
+  const userMsg = createMessage({content: userQuery, user: true, first: false, buttons: false});
   messagesBox.prepend(userMsg)
 
-  textInput.value = '';
-
-  //and receive the AI message needed
-  receiveAiMessage(userQuery);
+  
+  // //and receive the AI message needed
+  // receiveAiMessage(userQuery, chatAllowed);
 
 }
 
@@ -53,7 +52,7 @@ export function attachEventListeners(){
     //if there is a file upload requested
     if(ifUserRequestsFileUpload(userMsg)){
       console.log('requested file upload')
-      displayFileUploadSetting(chatAllowed);
+      displayFileUploadSetting();
       return
     }
 
@@ -61,7 +60,7 @@ export function attachEventListeners(){
     askGpt(chat, setBotText, addUrl);
 
     //make the new box chat instance
-    const aiResponse = createMessage({content: '', user: false});
+    const aiResponse = createMessage({content: '', user: false, first: false, buttons: false});
   
     //prepend as first element in the messages container
     messagesBox.prepend(aiResponse);
@@ -75,11 +74,11 @@ export function attachEventListeners(){
     return /(?=.*file)(?=.*upload)/.test(input)
   }
 
-  function displayFileUploadSetting(chatAllowed){
+  function displayFileUploadSetting(){
       const aiResponse = createMessage({content: `Which content/data did you want to process? 
-      add URL or upload a file`, user: false});
+      add URL or upload a file`, first: true, user: false, buttons: false});
       document.querySelector('.messages-wrapper').prepend(aiResponse);
-      document.querySelector('.cursor-gpt').remove();
+      // document.querySelector('.cursor-gpt').remove();
       document.querySelector('.input-div').remove();
 
       const outerGrid = document.querySelector('.sidebar');
@@ -87,6 +86,8 @@ export function attachEventListeners(){
         inputSection: 'input-div', 
         sendBtn: 'send-input-btn'
       }}));
+
+      chatAllowed = true;
 
     }
 
@@ -96,8 +97,22 @@ export function attachEventListeners(){
  * @param {*} event -- listening to keydown "Enter" when user is focused within input box
  */
 function checkForEnter(event){
-  if(event.key === 'Enter'){
-    sendChat();
+  const userInput = document.querySelector('.user-inpt');
+  
+  if (document.activeElement !== userInput) return undefined;
+  const value = userInput.value;
+
+  if(event.key === 'Enter' && userInput.id === 'text'){
+    console.log('sendChat() being called in checkForEnter')
+    // sendChat();
+    userInput.value = '';
+    userInput.disabled = true;
+    return value;
+  } else if(event.key === 'Enter' && userInput.id === 'file'){
+    handleSubmitHTTP();
+    return value
+  }else{
+    return undefined
   }
 }
 
@@ -105,16 +120,19 @@ function checkForEnter(event){
   /**
  * Function allows enter to be pressed when the user focuses on text input
  */
-export function allowEnter(){
-  window.addEventListener('keydown', checkForEnter)
-}
+let eventListener = undefined;
+export function allowEnter(callback) {
+  eventListener = (e) => {
+    //text returns if there is input or value
+    const text = checkForEnter(e);
 
-
-/**
- * Function forbids enter when the user leaves focus of the input element
- */
-export function forbidEnter(){
-  window.removeEventListener('keydown', checkForEnter)
+    if(text){
+      document.querySelector('.messages-wrapper').prepend(createMessage({content: text, user: true, first: false, buttons:false}))
+      window.removeEventListener('keydown', eventListener);
+      callback(text);
+    }
+  };
+  window.addEventListener('keydown', eventListener);
 }
 
 

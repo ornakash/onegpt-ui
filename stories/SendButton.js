@@ -17,6 +17,7 @@ export const createSendButton = ({
   sendBtn.addEventListener('click', onClick)
   
   console.log(sendBtn);
+  console.log("New Poop For everyone");
 
   return sendBtn;
 };

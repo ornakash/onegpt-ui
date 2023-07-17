@@ -1,14 +1,14 @@
+import { createButtonOptions, handleButtonInputsClick } from './ButtonOptions';
 import './InputSection.css';
 import { createMessage } from './Message';
 import {allowEnter} from './javascripts/main-scripts.js'
-import {forbidEnter} from './javascripts/main-scripts.js'
 import { trashCanSvg } from './javascripts/svg-strings';
 import {svgHandler} from './javascripts/utilities'
 
 //arguments decide what the component will look like
 export const createInputSection = ({
     useLabel,
-    classNames
+    classNames,
 }) => {
   const inputSection = document.createElement('div');
   inputSection.className = classNames.inputSection;
@@ -16,19 +16,23 @@ export const createInputSection = ({
 
   const input = document.createElement('input');
   input.className = 'user-inpt';
-  input.addEventListener('focus', allowEnter);
-  input.addEventListener('focusout', forbidEnter);
+  // input.addEventListener('focus', allowEnter);
   
 
   if(useLabel === 'disabled'){
+    console.log('creating a disabled input')
     inputSection.append(document.createElement('div'), createPurpleSendButton(classNames));
     inputSection.id = 'disabled';
   }else if(useLabel === 'file'){
     inputSection.append(createFileInputSection(), createPurpleSendButton(classNames));
     inputSection.id = 'file';
+  }else if(useLabel === 'contact'){
+    inputSection.append(createBookDemoContactInputSection(), createPurpleSendButton(classNames));
+    inputSection.id = 'contact';
   }
   else{ //useLabel === 'text'
     inputSection.id = 'text';
+    console.log('creating a text input')
     inputSection.append(createTextInputSection(), createPurpleSendButton(classNames));
   }
 
@@ -36,6 +40,21 @@ export const createInputSection = ({
   return inputSection;
 };
 
+function replaceInputSection(desiredInput, wrapper = document.body){
+  wrapper.querySelector('input-div').remove();
+  // wrapper.querySelector('.messages-div').append(createInputSection({useLabel: desiredInput, clas}))
+}
+
+function createBookDemoContactInputSection(){
+  const bookDemoDiv = document.createElement('div');
+  bookDemoDiv.className = 'input-book-demo';
+
+  const spanBookDemo = document.createElement('span');
+  spanBookDemo.innerHTML = 'BOOK DEMO';
+  bookDemoDiv.append(spanBookDemo);
+
+  return bookDemoDiv;
+}
 
 function createFileInputSection(){
   const fileInputWrapper = document.createElement('div');
@@ -50,6 +69,7 @@ function createFileInputSection(){
 
   const httpInput = document.createElement('input');
   httpInput.className = 'user-inpt';
+  httpInput.id = 'file';
 
   const uploadFileDiv = document.createElement('div');
   uploadFileDiv.className = 'custom-file-input-div'
@@ -93,24 +113,46 @@ function handleFileInput(event){
  * (1) Show a user message that that the file has been uploaded
  * (2) Now we can use the submitted file for API call
  */
-export function handleSubmitFile(){
+export function handleSubmitFile(callback){
   const submittedFile = document.querySelector('.custom-file-input').files[0];
 
-  const usersFileMsg = createMessage({content: `&#128448; ${submittedFile.name}`, user: true, first: false})
+  const usersFileMsg = createMessage({content: `&#128448; ${submittedFile.name}`, user: true, first: false, buttons: false})
   document.querySelector('.messages-wrapper').prepend(usersFileMsg);
 
+  document.querySelector('.messages-wrapper').prepend(createMessage({content: 'Is this a good analysis? ->', 
+  user: false, first: true, buttons: false}));
+
+  // callback(submittedFile);
+
+  showButtonsInput();
 }
 
+/**
+ * This is handler for the purple button press when we are on the file input screen but 
+ * (1) Show a user message that that the url has been uploaded
+ * (2) Now we can use the submitted http url for API call
+ */
+export function handleSubmitHTTP(){
+  console.log('handleSubmitHTTP called');
+  const httpInput = document.querySelector('.user-inpt');
+  const httpValue = httpInput.value;
+
+  document.querySelector('.messages-wrapper').prepend(createMessage({content: httpValue, 
+  user: true, first: false, buttons: false}));
+  console.log(httpValue);
+
+}
 
 function createTextInputSection(inputSection){
   const input = document.createElement('input');
   input.className = 'user-inpt';
-  input.addEventListener('focus', allowEnter);
-  input.addEventListener('focusout', forbidEnter);
+  input.id = 'text';
+  // input.addEventListener('focus', allowEnter);
+  // input.addEventListener('focusout', forbidEnter);
   return input
 }
 
-//shows the ui of just the fileName
+//shows the ui of just the fileName UI step
 function showFileNameToSubmit(fileName){
   const fileInputWrapGrid = document.querySelector('.file-input-wrap-grid');
 
@@ -131,7 +173,23 @@ function showFileNameToSubmit(fileName){
   trashCanIcon.style.marginLeft = 'auto';
   trashCanIcon.addEventListener('click', handleClearFile);
 
+  //remove the event listener from listening to the https
+  document.querySelector('.send-input-btn').removeEventListener('click', handleSubmitHTTP);
+
   fileInputWrapGrid.append(fileNameSpan, customFileInputDiv, trashCanIcon);
+
+}
+
+/**
+ * showButtonsInput created the three button options, send it in ui, and makes input UI disabled
+ */
+function showButtonsInput(){
+    console.log('trying to append buttons');
+    document.querySelector('.messages-wrapper').prepend(createButtonOptions({preferences: ['YES', 'NO', 'IMPROVE'], callback: handleButtonInputsClick}));
+    document.querySelector('.input-div').remove();
+    document.querySelector('.sidebar').append(createInputSection({useLabel: 'disabled', 
+    classNames: { inputSection: 'input-div input-disabled', sendBtn: 'send-input-btn input-disabled-btn',
+    callback: undefined}}));
 
 }
 
@@ -142,11 +200,17 @@ function handleClearFile(){
     inputSection: 'input-div', 
     sendBtn: 'send-input-btn'
   }}))
+  document.querySelector('.send-input-btn').removeEventListener('click', handleSubmitFile)
+}
+
+export function handleContactClick(){
+    console.log('FN TO HANDLE BOOKING A DEMO');
 }
 
 function createPurpleSendButton(classNames){
   const sendBtn = document.createElement('div');
   sendBtn.className = classNames.sendBtn;
+  // sendBtn.addEventListener('click', handleSubmitFile);
 
   const arrowRight = document.createElement('div');
   arrowRight.className = 'arrow-right'

@@ -4,13 +4,17 @@ import './Message.css';
 export const createMessage = ({
   content,
   user = true,
-  first
+  first,
+  buttons
 }) => {
   const message = document.createElement('div');
   
   //specify class based on if user
   const isUserClass = user ? 'from-user' : 'from-ai';
   message.className = `msg ${isUserClass}`;
+
+  const messageTick = document.createElement('div');
+  messageTick.className = 'msg-tick'
 
   const spanWrapper = document.createElement('div');
   const spanWrapperClass = !user && !first ? ' writing' : ''
@@ -27,8 +31,14 @@ export const createMessage = ({
     spanWithResponse.append(spanCursor);
   }
   
-  spanWrapper.append(spanWithResponse);
-  message.append(spanWrapper)
+    message.append()
+    spanWrapper.append(spanWithResponse);
+    if(buttons === true){ 
+      message.append(spanWrapper)
+
+    }else{ 
+      message.append(messageTick, spanWrapper)
+    }
 
   
   return message;

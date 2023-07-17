@@ -3,7 +3,6 @@
   grid-template-columns: 1fr auto;
   background-color: #393849;
   padding: 10px 5px;
-  border-radius: 10px;
   font-family: IBMPlex;
   color: #EDEDED;
   font-weight: 400;
@@ -12,13 +11,17 @@
 
 .intro-chat-span{
   font-size: 16px;
-  line-height: 19.2px;
+  line-height: 120%;
+  font-style: normal;
+  font-weight: 400;
 }
 
 .close-btn{
   top: 10px;
   right: 10px;
   font-size: 14px;
+  font-weight: 400;
+  line-height: 120%;
 }
 
 .close-wrapper-div{

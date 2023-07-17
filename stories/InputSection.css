@@ -6,7 +6,19 @@
     background-color: #393849;
     grid-template-columns: 1fr auto;
     align-items: center;
+}
+
+.input-book-demo{
+    height: 100%;
+    background-color: #00FFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: black;
+    font-size: 16px;
+    font-weight: 500;
     border-radius: 10px;
+    font-family: IBMPlex;
 }
 
 .input-disabled{
@@ -36,14 +48,17 @@
 }
 
 .send-input-btn{
-    background-color: #4D4DFF;
-    border-radius: 0px 10px 10px 0px;
+    background-color: #00FFFF;
     width: 60px;
     height: 100%;
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.send-input-btn-no-display{
+    display: none;
 }
 
 .send-input-btn:hover{
@@ -59,7 +74,7 @@
   height: 0; 
   border-top: 11px solid transparent;
   border-bottom: 11px solid transparent;
-  border-left: 25px solid #ededed;
+  border-left: 25px solid #1D1C29;
   position: relative;
 }
 
@@ -71,7 +86,7 @@
     FONT-WEIGHT: 500;
     border-top: 5px solid transparent;
     border-bottom: 5px solid transparent;
-    border-left: 22px solid #4D4DFF;
+    border-left: 22px solid #00FFFF;
     position: absolute;
 
 }
