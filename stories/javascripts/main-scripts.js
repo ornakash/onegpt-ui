@@ -99,16 +99,21 @@ export function sendChat(){
 function checkForEnter(event){
   const userInput = document.querySelector('.user-inpt');
   
-  if (document.activeElement !== userInput) return undefined;
   const value = userInput.value;
 
-  if(event.key === 'Enter' && userInput.id === 'text'){
+  const isEnter = (event.key === 'Enter' && document.activeElement === userInput) || 
+    ( event.type === 'click' && event.target.classList.contains('send-input-btn')); 
+    
+  console.log(event.target)
+  console.log(event.target.classList)
+  console.log(isEnter);
+  if(isEnter && userInput.id === 'text'){
     console.log('sendChat() being called in checkForEnter')
     // sendChat();
     userInput.value = '';
     userInput.disabled = true;
     return value;
-  } else if(event.key === 'Enter' && userInput.id === 'file'){
+  } else if(isEnter && userInput.id === 'file'){
     handleSubmitHTTP();
     return value
   }else{
@@ -129,10 +134,13 @@ export function allowEnter(callback) {
     if(text){
       document.querySelector('.messages-wrapper').prepend(createMessage({content: text, user: true, first: false, buttons:false}))
       window.removeEventListener('keydown', eventListener);
+      window.removeEventListener('click', eventListener);
       callback(text);
     }
   };
   window.addEventListener('keydown', eventListener);
-}
+  window.addEventListener('click', eventListener);
+}  
+
 
 

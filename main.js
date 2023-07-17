@@ -114,7 +114,7 @@ function simpleTest(i, chatUI) {
   //     simpleTest(i + 1, chatUI);
   //   });
   // });
-  chatUI.setTextInput((text, chatUI) => handleTextCallback(text, chatUI))
+  chatUI.setTextInput((text) => handleTextCallback(text, chatUI))
   else
   chatUI.setButtonsInput(["YES", "NO"], (text) => {
     const stream = gptEventStream([{speaker: "user", utterance: text}]);
@@ -153,7 +153,6 @@ function handleTextCallback(text, chatUI){
 export function setInputListeners(btnCallback){
   if(document.querySelector('.send-input-btn')){ 
     //text or file input
-    document.querySelector('.send-input-btn').addEventListener('click', btnCallback);
 
     const text = document.querySelector('.user-inpt').value;
     // document.querySelector('.send-input-btn').addEventListener('click', () => btnCallback(text));
