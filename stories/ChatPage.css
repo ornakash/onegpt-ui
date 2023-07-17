@@ -35,7 +35,7 @@
     border-right-width: 4px;
     border-style: solid;
     border-color: transparent;
-    border-radius: 100%/10%;
+    border-radius: 100%/10px;
     background-clip: content-box !important;
     background: #7C7889;
 }
