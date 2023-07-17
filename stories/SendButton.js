@@ -15,9 +15,9 @@ export const createSendButton = ({
   sendBtn.style.backgroundColor = backgroundColor;
 
   sendBtn.addEventListener('click', onClick)
-  
-  console.log(sendBtn);
-  console.log("New Poop For everyone");
+
+  // console.log(sendBtn);
+  // console.log("New Poop For everyone");
 
   return sendBtn;
 };

@@ -17,7 +17,7 @@ export const createHeader = ({ }) => {
   closeBtn.innerHTML = 'CLOSE';
   closeBtn.className = 'close-btn';
 
-  console.log(xCloseIcon);
+  // console.log(xCloseIcon);
 
   const closeIcon = svgHandler(xCloseIcon);
 

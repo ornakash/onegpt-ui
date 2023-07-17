@@ -20,7 +20,7 @@ export function setBotText(text) {
 export function onStreamFinish() {
   //remove the writing class and cursor
   const messageDiv = document.querySelector(".writing");
-  console.log('entering done');
+  // console.log('entering done');
   messageDiv.className = 'span-wrapper';
   setTimeout(() => {
     document.querySelector('.cursor-gpt').remove();
@@ -30,8 +30,8 @@ export function onStreamFinish() {
 export function addUrl(hrefs, texts) {
   const writingEl = document.querySelector(".writing");
   const container = document.createElement("div");
-  console.log(hrefs);
-  console.log(texts);
+  // console.log(hrefs);
+  // console.log(texts);
   // let htmlString = `<div class="msg center-msg"><div class="msg-bubble"><div class="msg-text">Looking in `
   // htmlString += hrefs.map((href, i) => `<a href=${href}>${texts[i]}</a>`).join(", ");
   // htmlString += `...</div></div></div>`;
@@ -47,8 +47,6 @@ export function gptEventStream(chat) {
     stream.dispatchEvent(new CustomEvent("done", { detail: true }));
   };
 
-  console.log("poop")
-  console.log(chat)
   askGpt(chat, createContentEvent, createMetadataEvent, createDoneEvent);
   return stream;
 }
@@ -105,7 +103,6 @@ export function askGpt(chat, onText, onMetadata, onFinish) {
                 onText(writeMarkdown, true);
                 controller.close();
                 abortController = undefined;
-                console.log(onFinish)
                 if (onFinish) onFinish();
                 return;
               }

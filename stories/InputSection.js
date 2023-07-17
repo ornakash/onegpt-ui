@@ -20,7 +20,7 @@ export const createInputSection = ({
 
 
   if (useLabel === 'disabled') {
-    console.log('creating a disabled input')
+    // console.log('creating a disabled input')
     inputSection.append(document.createElement('div'), createPurpleSendButton(classNames));
     inputSection.id = 'disabled';
   } else if (useLabel === 'file') {
@@ -32,7 +32,7 @@ export const createInputSection = ({
   }
   else { //useLabel === 'text'
     inputSection.id = 'text';
-    console.log('creating a text input')
+    // console.log('creating a text input')
     classNames.sendBtn += " disabled"
     inputSection.append(createTextInputSection(), createPurpleSendButton(classNames));
   }
@@ -195,7 +195,7 @@ function showFileNameToSubmit(fileName) {
  * showButtonsInput created the three button options, send it in ui, and makes input UI disabled
  */
 function showButtonsInput() {
-  console.log('trying to append buttons');
+  // console.log('trying to append buttons');
   document.querySelector('.messages-wrapper').prepend(createButtonOptions({ preferences: ['YES', 'NO', 'IMPROVE'], callback: handleButtonInputsClick }));
   document.querySelector('.input-div').remove();
   document.querySelector('.sidebar').append(createInputSection({

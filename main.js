@@ -15,7 +15,6 @@ export class ChatUI {
   constructor(wrapper) {
     this.page = createChatPage({})
     this.wrapper = wrapper
-    this.stream = this.initializeStream();
 
     //last steps
     wrapper.innerHTML = this.page.outerHTML;
@@ -35,8 +34,6 @@ export class ChatUI {
       }
     ))
   }
-
-
 
   setTextInput(callback) {
     document.querySelector('.input-div').remove();
@@ -78,28 +75,20 @@ export class ChatUI {
     messagesBox.prepend(message);
   }
 
-  initializeStream() {
-    const stream = new EventTarget();
-    const createContentEvent = (text) => stream.dispatchEvent(new CustomEvent("content", { detail: text }));
-    const createMetadataEvent = (metadata) => stream.dispatchEvent(new CustomEvent("metadata", { detail: metadata }));
-    const createDoneEvent = () => stream.dispatchEvent(new CustomEvent("done", { detail: true }));
-    return stream;
-  }
-
   addGptResponse(stream) {
     // create the writing message for 
     this.showUIMessage('', false, false);
 
     stream.addEventListener("content", (event) => {
-      console.log(event.detail);
+      // console.log(event.detail);
       setBotText(event.detail);
     });
     stream.addEventListener("metadata", (event) => {
-      console.log(event.detail)
+      // console.log(event.detail)
     });
     stream.addEventListener("done", (event) => {
-      console.log(event.detail);
-      console.log("stream done");
+      // console.log(event.detail);
+      // console.log("stream done");
       onStreamFinish();
     });
   }
@@ -109,27 +98,24 @@ export class ChatUI {
 
 
 function simpleTest(i, chatUI) {
-  console.log(chatUI);
-  if (i >= 2) return;
-
   //the callback function is this in the param
-  if (i == 0)
-    // chatUI.setTextInput((text) => {
-    //   const stream = gptEventStream([{speaker: "user", utterance: text}]);
-    //   chatUI.addGptResponse(stream);
-    //   stream.addEventListener("done", () => {
-    //     simpleTest(i + 1, chatUI);
-    //   });
-    // });
-    chatUI.setTextInput((text) => handleTextCallback(text, chatUI))
-  else
+  if (i == 1) {
+    chatUI.setTextInput((text) => {
+      const stream = gptEventStream([{ speaker: "user", utterance: text }]);
+      chatUI.addGptResponse(stream);
+      stream.addEventListener("done", () => {
+        simpleTest(1, chatUI);
+      });
+    });
+  } else if (i == 0) {
     chatUI.setButtonsInput(["YES", "NO"], (text) => {
       const stream = gptEventStream([{ speaker: "user", utterance: text }]);
       chatUI.addGptResponse(stream);
       stream.addEventListener("done", () => {
-        simpleTest(i + 1, chatUI);
+        simpleTest(1, chatUI);
       });
     });
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -139,19 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   simpleTest(0, myChat);
 });
-
-
-function handleTextCallback(text, chatUI) {
-
-  console.log('within handleTextCallback');
-  console.log(chatUI)
-
-  const stream = gptEventStream([{ speaker: "user", utterance: text }]);
-  chatUI.addGptResponse(stream);
-  stream.addEventListener("done", () => {
-    console.log('done');
-  });
-}
 
 
 /**Call this when you set the inputs to make sure the right listeners are set for each type of input
