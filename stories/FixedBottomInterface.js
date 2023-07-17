@@ -12,6 +12,6 @@ export const createFixedBottomInterface = ({
   fixedBottomInterface.appendChild(createInputSection({}));
   fixedBottomInterface.appendChild(createSendMessageInterface({}));
 
-  console.log(fixedBottomInterface.children);
+  // console.log(fixedBottomInterface.children);
   return fixedBottomInterface;
 };

@@ -29,10 +29,10 @@ export const createChatPage = ({
         temperature,
     }
     const chatPage = document.createElement('div');
-    
+
     //append the other stories
     let chatBackground = createChatBackground({});
-    
+
     //create the header with close button
     const chatHeader = createHeader({});
 
@@ -43,7 +43,7 @@ export const createChatPage = ({
     const messagesWrapper = document.createElement('div');
     messagesWrapper.className = 'messages-wrapper';
 
-    let message = createMessage({content: 'Your AI assistant...', user: false, first: true, buttons: false});
+    let message = createMessage({ content: 'Your AI assistant...', user: false, first: true, buttons: false });
     message.className = 'msg from-ai'
 
     messagesWrapper.append(message)
@@ -51,9 +51,13 @@ export const createChatPage = ({
 
 
     //create fixedBottomInterface
-    let inputSection = createInputSection({useLabel: 'text', classNames: {inputSection: 'input-div', 
-    sendBtn: 'send-input-btn'}})
-    console.log(inputSection);
+    let inputSection = createInputSection({
+        useLabel: 'text', classNames: {
+            inputSection: 'input-div',
+            sendBtn: 'send-input-btn'
+        }
+    })
+    // console.log(inputSection);
 
     //append all to chatBackground
     chatBackground.appendChild(chatHeader);
@@ -65,18 +69,20 @@ export const createChatPage = ({
 
 
 
-    localStorage.setItem('headers', {'Content-Type': contentType, 'api-key': apiKey});
-    localStorage.setItem('params', 
-        {project: project, 
-        cache: cache, 
-        metadeta: metadeta, 
-        threshold: threshold,
-        max_items: maxItems, 
-        temperature: temperature}
+    localStorage.setItem('headers', { 'Content-Type': contentType, 'api-key': apiKey });
+    localStorage.setItem('params',
+        {
+            project: project,
+            cache: cache,
+            metadeta: metadeta,
+            threshold: threshold,
+            max_items: maxItems,
+            temperature: temperature
+        }
     );
-    
-    
 
-    
+
+
+
     return chatPage;
 };

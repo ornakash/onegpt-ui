@@ -1,10 +1,29 @@
-.button-options-input-div{
+.button-options-input-div {
     flex: 1;
     margin-left: auto;
     gap: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 
-.button-options-input-div .msg{
-    flex-basis: 100%;
-    margin-bottom: 10px;
+.buttons-option {
+    border: 2px solid #00FFFF;
+    margin: 0 !important;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.buttons-option:not(.disabled):hover {
+    background-color: #4F4D65;
+}
+
+.buttons-option.disabled {
+    cursor: default;
+}
+
+.buttons-option.disabled:not(.selected) {
+    background-color: transparent;
+    color: #393849;
+    border-color: #393849;
 }

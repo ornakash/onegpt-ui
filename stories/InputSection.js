@@ -1,14 +1,14 @@
 import { createButtonOptions, handleButtonInputsClick } from './ButtonOptions';
 import './InputSection.css';
 import { createMessage } from './Message';
-import {allowEnter} from './javascripts/main-scripts.js'
+import { allowEnter } from './javascripts/main-scripts.js'
 import { trashCanSvg } from './javascripts/svg-strings';
-import {svgHandler} from './javascripts/utilities'
+import { svgHandler } from './javascripts/utilities'
 
 //arguments decide what the component will look like
 export const createInputSection = ({
-    useLabel,
-    classNames,
+  useLabel,
+  classNames,
 }) => {
   const inputSection = document.createElement('div');
   inputSection.className = classNames.inputSection;
@@ -17,20 +17,22 @@ export const createInputSection = ({
   const input = document.createElement('input');
   input.className = 'user-inpt';
   // input.addEventListener('focus', allowEnter);
-  
+
 
   if(useLabel === 'disabled'){
     inputSection.append(document.createElement('div'), createPurpleSendButton(classNames));
     inputSection.id = 'disabled';
-  }else if(useLabel === 'file'){
+  } else if (useLabel === 'file') {
     inputSection.append(createFileInputSection(), createPurpleSendButton(classNames));
     inputSection.id = 'file';
-  }else if(useLabel === 'contact'){
+  } else if (useLabel === 'contact') {
     inputSection.append(createBookDemoContactInputSection(), createPurpleSendButton(classNames));
     inputSection.id = 'contact';
   }
-  else{ //useLabel === 'text'
+  else { //useLabel === 'text'
     inputSection.id = 'text';
+    // console.log('creating a text input')
+    classNames.sendBtn += " disabled"
     inputSection.append(createTextInputSection(), createPurpleSendButton(classNames));
   }
 
@@ -38,7 +40,12 @@ export const createInputSection = ({
   return inputSection;
 };
 
-function createBookDemoContactInputSection(){
+function replaceInputSection(desiredInput, wrapper = document.body) {
+  wrapper.querySelector('input-div').remove();
+  // wrapper.querySelector('.messages-div').append(createInputSection({useLabel: desiredInput, clas}))
+}
+
+function createBookDemoContactInputSection() {
   const bookDemoDiv = document.createElement('div');
   bookDemoDiv.className = 'input-book-demo';
 
@@ -49,13 +56,13 @@ function createBookDemoContactInputSection(){
   return bookDemoDiv;
 }
 
-function createFileInputSection(){
+function createFileInputSection() {
   const fileInputWrapper = document.createElement('div');
   fileInputWrapper.className = 'file-input-wrap-grid';
 
   const httpSpan = document.createElement('span');
   httpSpan.className = 'file-input-http-span';
-  httpSpan.innerHTML =  `http://`;
+  httpSpan.innerHTML = `http://`;
 
   const inputAndUploadFileGrid = document.createElement('div');
   inputAndUploadFileGrid.className = 'file-input-inner-grid';
@@ -83,7 +90,7 @@ function createFileInputSection(){
   fileInputLabel.innerHTML = `<span style="color: #00FFFF">Upload File </span> <span> &#128448; </span>`;
 
   customFileInputDiv.append(fileInput, fileInputLabel);
-  uploadFileDiv.append(uploadFileSpan,customFileInputDiv)
+  uploadFileDiv.append(uploadFileSpan, customFileInputDiv)
 
   inputAndUploadFileGrid.append(httpInput, uploadFileDiv)
 
@@ -92,7 +99,7 @@ function createFileInputSection(){
   return fileInputWrapper;
 }
 
-function handleFileInput(event){
+function handleFileInput(event) {
   const selectedFile = event.target.files[0]; // Get the selected file object
 
   // Perform actions with the selected file
@@ -105,14 +112,16 @@ function handleFileInput(event){
  * (1) Show a user message that that the file has been uploaded
  * (2) Now we can use the submitted file for API call
  */
-export function handleSubmitFile(callback){
+export function handleSubmitFile(callback) {
   const submittedFile = document.querySelector('.custom-file-input').files[0];
 
-  const usersFileMsg = createMessage({content: `&#128448; ${submittedFile.name}`, user: true, first: false, buttons: false})
+  const usersFileMsg = createMessage({ content: `&#128448; ${submittedFile.name}`, user: true, first: false, buttons: false })
   document.querySelector('.messages-wrapper').prepend(usersFileMsg);
 
-  document.querySelector('.messages-wrapper').prepend(createMessage({content: 'Is this a good analysis? ->', 
-  user: false, first: true, buttons: false}));
+  document.querySelector('.messages-wrapper').prepend(createMessage({
+    content: 'Is this a good analysis? ->',
+    user: false, first: true, buttons: false
+  }));
 
   showButtonsInput();
 }
@@ -122,35 +131,47 @@ export function handleSubmitFile(callback){
  * (1) Show a user message that that the url has been uploaded
  * (2) Now we can use the submitted http url for API call
  */
-export function handleSubmitHTTP(){
+export function handleSubmitHTTP() {
+  console.log('handleSubmitHTTP called');
   const httpInput = document.querySelector('.user-inpt');
   const httpValue = httpInput.value;
 
-  document.querySelector('.messages-wrapper').prepend(createMessage({content: httpValue, 
-  user: true, first: false, buttons: false}));
+  document.querySelector('.messages-wrapper').prepend(createMessage({
+    content: httpValue,
+    user: true, first: false, buttons: false
+  }));
+  console.log(httpValue);
+
 }
 
-function createTextInputSection(inputSection){
+function createTextInputSection(inputSection) {
   const input = document.createElement('input');
   input.className = 'user-inpt';
   input.id = 'text';
-  // input.addEventListener('focus', allowEnter);
-  // input.addEventListener('focusout', forbidEnter);
+  input.autocomplete = 'off';
+  input.spellcheck = false;
+  input.placeholder = "Send a message..."
+  // on value change, check if the value is empty or not
+  const updateButton = () => {
+    document.querySelector('.send-input-btn').classList.toggle('disabled', input.value.length === 0);
+  };
+  input.addEventListener('input', updateButton);
   return input
 }
 
 //shows the ui of just the fileName UI step
-function showFileNameToSubmit(fileName){
+function showFileNameToSubmit(fileName) {
   const fileInputWrapGrid = document.querySelector('.file-input-wrap-grid');
 
   //save the file input so we have the file still
   const customFileInputDiv = document.querySelector('.custom-file-input-div');
   customFileInputDiv.className = 'custom-file-input-div file-input-div-disabled'
 
-  while(fileInputWrapGrid.firstChild){
+  console.log(document.querySelector('.custom-file-input').files)
+  while (fileInputWrapGrid.firstChild) {
     fileInputWrapGrid.firstChild.remove();
   }
-  
+
   const fileNameSpan = document.createElement('span');
   fileNameSpan.innerHTML = `File: ${fileName}`;
 
@@ -169,32 +190,37 @@ function showFileNameToSubmit(fileName){
 /**
  * showButtonsInput created the three button options, send it in ui, and makes input UI disabled
  */
-function showButtonsInput(){
-    document.querySelector('.messages-wrapper').prepend(createButtonOptions({preferences: ['YES', 'NO', 'IMPROVE'], 
-    callback: handleButtonInputsClick}));
-    
-    document.querySelector('.input-div').remove();
-    document.querySelector('.sidebar').append(createInputSection({useLabel: 'disabled', 
-    classNames: { inputSection: 'input-div input-disabled', sendBtn: 'send-input-btn input-disabled-btn',
-    callback: undefined}}));
+function showButtonsInput() {
+  // console.log('trying to append buttons');
+  document.querySelector('.messages-wrapper').prepend(createButtonOptions({ preferences: ['YES', 'NO', 'IMPROVE'], callback: handleButtonInputsClick }));
+  document.querySelector('.input-div').remove();
+  document.querySelector('.sidebar').append(createInputSection({
+    useLabel: 'disabled',
+    classNames: {
+      inputSection: 'input-div input-disabled', sendBtn: 'send-input-btn input-disabled-btn',
+    },
+    callback: undefined
+  }));
 
 }
 
 //clears the input div with the file and buts a new input section 
-function handleClearFile(){
+function handleClearFile() {
   document.querySelector('.input-div').remove();
-  document.querySelector('.sidebar').append(createInputSection({useLabel: 'file', classNames: {
-    inputSection: 'input-div', 
-    sendBtn: 'send-input-btn'
-  }}))
+  document.querySelector('.sidebar').append(createInputSection({
+    useLabel: 'file', classNames: {
+      inputSection: 'input-div',
+      sendBtn: 'send-input-btn'
+    }
+  }))
   document.querySelector('.send-input-btn').removeEventListener('click', handleSubmitFile)
 }
 
-export function handleContactClick(){
-
+export function handleContactClick() {
+  console.log('FN TO HANDLE BOOKING A DEMO');
 }
 
-function createPurpleSendButton(classNames){
+function createPurpleSendButton(classNames) {
   const sendBtn = document.createElement('div');
   sendBtn.className = classNames.sendBtn;
   // sendBtn.addEventListener('click', handleSubmitFile);
@@ -204,7 +230,7 @@ function createPurpleSendButton(classNames){
 
   const smallerArrowRight = document.createElement('div');
   smallerArrowRight.className = 'smaller-arrow-right';
-  
+
   arrowRight.append(smallerArrowRight);
   sendBtn.append(arrowRight)
   return sendBtn;

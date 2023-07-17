@@ -8,7 +8,7 @@ export const createMessage = ({
   buttons
 }) => {
   const message = document.createElement('div');
-  
+
   //specify class based on if user
   const isUserClass = user ? 'from-user' : 'from-ai';
   message.className = `msg ${isUserClass}`;
@@ -24,22 +24,22 @@ export const createMessage = ({
   const spanWithResponse = document.createElement('span');
   spanWithResponse.innerHTML = content;
 
-  if(!user && !first){ 
+  if (!user && !first) {
     const spanCursor = document.createElement('span');
     spanCursor.className = 'cursor-gpt';
-    spanCursor.innerHTML = '|';
+    spanCursor.innerHTML = '&nbsp;';
     spanWithResponse.append(spanCursor);
   }
-  
-    message.append()
-    spanWrapper.append(spanWithResponse);
-    if(buttons === true){ 
-      message.append(spanWrapper)
 
-    }else{ 
-      message.append(messageTick, spanWrapper)
-    }
+  message.append()
+  spanWrapper.append(spanWithResponse);
+  if (buttons === true) {
+    message.append(spanWrapper)
 
-  
+  } else {
+    message.append(messageTick, spanWrapper)
+  }
+
+
   return message;
 };
