@@ -7,8 +7,8 @@ export const createHeader = ({ }) => {
   const header = document.createElement('div');
   header.className = 'header-grid';
   const introductionSpan = document.createElement('span');
-  introductionSpan.className ='intro-chat-span'
-  introductionSpan.innerHTML = 'Chat with OneAI';
+  introductionSpan.className = 'intro-chat-span'
+  introductionSpan.innerHTML = 'Chat with One AI';
 
   const closeWrapper = document.createElement('div');
   closeWrapper.className = 'close-wrapper-div';
@@ -20,7 +20,7 @@ export const createHeader = ({ }) => {
   console.log(xCloseIcon);
 
   const closeIcon = svgHandler(xCloseIcon);
-  
+
   closeWrapper.append(closeBtn, closeIcon)
 
 

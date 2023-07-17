@@ -1,33 +1,31 @@
-.header-grid{ 
-  display: grid;
-  grid-template-columns: 1fr auto;
+.header-grid {
+  display: flex;
   background-color: #393849;
-  padding: 10px 5px;
+  padding: 10px 15px;
   font-family: IBMPlex;
   color: #EDEDED;
   font-weight: 400;
-
+  align-items: center;
+  justify-content: space-between;
 }
 
-.intro-chat-span{
+.intro-chat-span {
   font-size: 16px;
-  line-height: 120%;
-  font-style: normal;
   font-weight: 400;
 }
 
-.close-btn{
-  top: 10px;
-  right: 10px;
+.close-btn {
   font-size: 14px;
   font-weight: 400;
-  line-height: 120%;
 }
 
-.close-wrapper-div{
+.close-wrapper-div {
   display: flex;
   align-items: center;
-  justify-content: center;
   gap: 8px;
-  margin-right: 10px;
+}
+
+.close-wrapper-div svg {
+  width: 11px;
+  height: 11px;
 }
