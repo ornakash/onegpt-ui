@@ -19,8 +19,7 @@ export const createInputSection = ({
   // input.addEventListener('focus', allowEnter);
 
 
-  if (useLabel === 'disabled') {
-    // console.log('creating a disabled input')
+  if(useLabel === 'disabled'){
     inputSection.append(document.createElement('div'), createPurpleSendButton(classNames));
     inputSection.id = 'disabled';
   } else if (useLabel === 'file') {
@@ -104,7 +103,6 @@ function handleFileInput(event) {
   const selectedFile = event.target.files[0]; // Get the selected file object
 
   // Perform actions with the selected file
-  console.log('File submitted:', selectedFile);
 
   showFileNameToSubmit(selectedFile.name);
 }
@@ -124,8 +122,6 @@ export function handleSubmitFile(callback) {
     content: 'Is this a good analysis? ->',
     user: false, first: true, buttons: false
   }));
-
-  // callback(submittedFile);
 
   showButtonsInput();
 }
@@ -202,8 +198,8 @@ function showButtonsInput() {
     useLabel: 'disabled',
     classNames: {
       inputSection: 'input-div input-disabled', sendBtn: 'send-input-btn input-disabled-btn',
-      callback: undefined
-    }
+    },
+    callback: undefined
   }));
 
 }

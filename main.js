@@ -21,7 +21,7 @@ export class ChatUI {
     attachEventListeners()
   }
 
-  /** FUNCTION WILL HOW BUTTONS UI
+  /** FUNCTION WILL SET BUTTONS UI
    * 
    * @param {str[]} buttonsPreference -- list of str indicating strings of buttons
    * @param {*} callback -- callback fn (By default it is handleButtonInputsClick) that handles when buttons are clicked
@@ -80,15 +80,11 @@ export class ChatUI {
     this.showUIMessage('', false, false);
 
     stream.addEventListener("content", (event) => {
-      // console.log(event.detail);
       setBotText(event.detail);
     });
     stream.addEventListener("metadata", (event) => {
-      // console.log(event.detail)
     });
     stream.addEventListener("done", (event) => {
-      // console.log(event.detail);
-      // console.log("stream done");
       onStreamFinish();
     });
   }
@@ -125,6 +121,30 @@ document.addEventListener('DOMContentLoaded', () => {
 
   simpleTest(0, myChat);
 });
+
+function handleButtonsCallback(text){ 
+  console.log(text);
+
+  //btnClickedString takes on values 'yes' , 'no', 'maybe'
+  console.log(text);
+
+  document.querySelector('.messages-wrapper').prepend(createMessage({content: `Response: ${text}`, first: true, 
+  user: false, buttons: false
+  }))
+
+  //clean up the event listeners from the buttons and put in normal file input
+  cleanUpButtonEventListeners();
+}
+
+function handleTextCallback(i, text, chatUI){
+
+    const stream = gptEventStream([{speaker: "user", utterance: text}]);
+    chatUI.addGptResponse(stream);
+    stream.addEventListener("done", () => {
+      console.log('done');
+      simpleTest(i + 1, chatUI)
+    });
+}
 
 
 /**Call this when you set the inputs to make sure the right listeners are set for each type of input

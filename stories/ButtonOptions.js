@@ -99,5 +99,4 @@ export function handleButtonInputsClick(event) {
 //     for (let option of buttonOptions) {
 //         option.removeEventListener('click', handleButtonInputsClick)
 //     }
-
 // }

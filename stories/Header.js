@@ -1,5 +1,4 @@
 import './header.css';
-import { createButton } from './Button';
 import { xCloseIcon } from './javascripts/svg-strings';
 import { svgHandler } from './javascripts/utilities';
 

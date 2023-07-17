@@ -27,16 +27,14 @@ export function onStreamFinish() {
   }, 250);
 }
 
-export function addUrl(hrefs, texts) {
-  const writingEl = document.querySelector(".writing");
-  const container = document.createElement("div");
-  // console.log(hrefs);
-  // console.log(texts);
-  // let htmlString = `<div class="msg center-msg"><div class="msg-bubble"><div class="msg-text">Looking in `
-  // htmlString += hrefs.map((href, i) => `<a href=${href}>${texts[i]}</a>`).join(", ");
-  // htmlString += `...</div></div></div>`;
-  // container.innerHTML = htmlString;
-  // writingEl.parentElement.insertBefore(container.firstChild, writingEl);
+export function addUrl(hrefs, texts){
+    const writingEl = document.querySelector(".writing");
+    const container = document.createElement("div");
+    // let htmlString = `<div class="msg center-msg"><div class="msg-bubble"><div class="msg-text">Looking in `
+    // htmlString += hrefs.map((href, i) => `<a href=${href}>${texts[i]}</a>`).join(", ");
+    // htmlString += `...</div></div></div>`;
+    // container.innerHTML = htmlString;
+    // writingEl.parentElement.insertBefore(container.firstChild, writingEl);
 }
 
 export function gptEventStream(chat) {

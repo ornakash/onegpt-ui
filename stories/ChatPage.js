@@ -1,7 +1,6 @@
 import './ChatPage.css';
-import './extra.css'
-import { createChatBackground } from './ChatBackground.js'
-import { createFixedBottomInterface } from './FixedBottomInterface.js'
+import {createChatBackground} from './ChatBackground.js'
+import {createFixedBottomInterface} from './FixedBottomInterface.js'
 import { createMessage } from './Message';
 import * as apiCall from './javascripts/api-call';
 import { createInputSection } from './InputSection';

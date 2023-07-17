@@ -20,8 +20,7 @@ export function sendChat() {
   const textInput = document.querySelector('.user-inpt');
   const userQuery = textInput.value;
 
-  // console.log(userQuery);
-
+  
   //check for no value or chat not allowed
   if (!userQuery || !chatAllowed) {
     return;
@@ -40,37 +39,6 @@ export function sendChat() {
 
 }
 
-
-/** Function will call api wait for AI response and add it into the chat interface
- * 
- * @param {string} userMsg 
- */
-function receiveAiMessage(userMsg) {
-  //messages box is the container for all the messages
-  const messagesBox = document.querySelector('.messages-wrapper');
-
-  //if there is a file upload requested
-  if (ifUserRequestsFileUpload(userMsg)) {
-    // console.log('requested file upload')
-    displayFileUploadSetting();
-    return
-  }
-
-  let chat = [{ 'utterance': userMsg, speaker: 'user' }];
-  askGpt(chat, setBotText, addUrl);
-
-  //make the new box chat instance
-  const aiResponse = createMessage({ content: '', user: false, first: false, buttons: false });
-
-  //prepend as first element in the messages container
-  messagesBox.prepend(aiResponse);
-
-  chatAllowed = true;
-}
-
-function ifUserRequestsFileUpload(input) {
-  return /(?=.*file)(?=.*upload)/.test(input)
-}
 
 function displayFileUploadSetting() {
   const aiResponse = createMessage({
@@ -104,15 +72,12 @@ function checkForEnter(event) {
 
   const value = userInput.value;
 
-  const isEnter = (event.key === 'Enter' && document.activeElement === userInput) ||
-    (event.type === 'click' && event.target.classList.contains('send-input-btn'));
-
-  // console.log(event.target)
-  // console.log(event.target.classList)
-  // console.log(isEnter);
-  if (isEnter && userInput.id === 'text') {
-    // console.log('sendChat() being called in checkForEnter')
-    // sendChat();
+  const isEnter = (event.key === 'Enter' && document.activeElement === userInput) || 
+    (event.type === 'click' && event.target.classList.contains('send-input-btn')); 
+    
+ 
+  if(isEnter && userInput.id === 'text'){
+    //if there user is trying to submit a text input
     userInput.value = '';
     userInput.disabled = true;
     button.classList.add('disabled');
