@@ -24,6 +24,30 @@
     background-color: #272534;
 }
 
+.messages::-webkit-scrollbar {
+    width: 12px;
+}
+
+.messages::-webkit-scrollbar-thumb {
+    border-top-width: 3px;
+    border-bottom-width: 3px;
+    border-left-width: 4px;
+    border-right-width: 4px;
+    border-style: solid;
+    border-color: transparent;
+    border-radius: 100%/10%;
+    background-clip: content-box !important;
+    background: #7C7889;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+    background: #0ff6;
+}
+
+.messages::-webkit-scrollbar-thumb:active {
+    background: #0ff;
+}
+
 .messages-wrapper {
     padding: 30px;
     display: flex;
