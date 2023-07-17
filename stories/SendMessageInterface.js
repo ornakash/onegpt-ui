@@ -1,6 +1,4 @@
 import './SendMessageInterface.css';
-import { createSendButton } from './SendButton';
-import {createDirection}  from './Direction.js';
 
 //arguments decide what the component will look like
 export const createSendMessageInterface = ({}) => {

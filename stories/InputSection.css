@@ -61,11 +61,19 @@
     display: none;
 }
 
-.send-input-btn:hover{
-    background-color: #4545e6;
+.send-input-btn.disabled-cls:hover{
+    background-color: #00ffff;
 
     .smaller-arrow-right{
-        border-left: 22px solid #4545e6;
+        border-left: 22px solid #00ffff;
+    }
+}
+
+.send-input-btn:hover{
+    background-color: #00cccc;
+
+    .smaller-arrow-right{
+        border-left: 22px solid #00cccc;
     }
 }
 

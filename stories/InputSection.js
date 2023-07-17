@@ -20,7 +20,6 @@ export const createInputSection = ({
   
 
   if(useLabel === 'disabled'){
-    console.log('creating a disabled input')
     inputSection.append(document.createElement('div'), createPurpleSendButton(classNames));
     inputSection.id = 'disabled';
   }else if(useLabel === 'file'){
@@ -32,18 +31,12 @@ export const createInputSection = ({
   }
   else{ //useLabel === 'text'
     inputSection.id = 'text';
-    console.log('creating a text input')
     inputSection.append(createTextInputSection(), createPurpleSendButton(classNames));
   }
 
 
   return inputSection;
 };
-
-function replaceInputSection(desiredInput, wrapper = document.body){
-  wrapper.querySelector('input-div').remove();
-  // wrapper.querySelector('.messages-div').append(createInputSection({useLabel: desiredInput, clas}))
-}
 
 function createBookDemoContactInputSection(){
   const bookDemoDiv = document.createElement('div');
@@ -103,7 +96,6 @@ function handleFileInput(event){
   const selectedFile = event.target.files[0]; // Get the selected file object
 
   // Perform actions with the selected file
-  console.log('File submitted:', selectedFile);
 
   showFileNameToSubmit(selectedFile.name);
 }
@@ -122,8 +114,6 @@ export function handleSubmitFile(callback){
   document.querySelector('.messages-wrapper').prepend(createMessage({content: 'Is this a good analysis? ->', 
   user: false, first: true, buttons: false}));
 
-  // callback(submittedFile);
-
   showButtonsInput();
 }
 
@@ -133,14 +123,11 @@ export function handleSubmitFile(callback){
  * (2) Now we can use the submitted http url for API call
  */
 export function handleSubmitHTTP(){
-  console.log('handleSubmitHTTP called');
   const httpInput = document.querySelector('.user-inpt');
   const httpValue = httpInput.value;
 
   document.querySelector('.messages-wrapper').prepend(createMessage({content: httpValue, 
   user: true, first: false, buttons: false}));
-  console.log(httpValue);
-
 }
 
 function createTextInputSection(inputSection){
@@ -160,7 +147,6 @@ function showFileNameToSubmit(fileName){
   const customFileInputDiv = document.querySelector('.custom-file-input-div');
   customFileInputDiv.className = 'custom-file-input-div file-input-div-disabled'
 
-  console.log(document.querySelector('.custom-file-input').files)
   while(fileInputWrapGrid.firstChild){
     fileInputWrapGrid.firstChild.remove();
   }
@@ -184,8 +170,9 @@ function showFileNameToSubmit(fileName){
  * showButtonsInput created the three button options, send it in ui, and makes input UI disabled
  */
 function showButtonsInput(){
-    console.log('trying to append buttons');
-    document.querySelector('.messages-wrapper').prepend(createButtonOptions({preferences: ['YES', 'NO', 'IMPROVE'], callback: handleButtonInputsClick}));
+    document.querySelector('.messages-wrapper').prepend(createButtonOptions({preferences: ['YES', 'NO', 'IMPROVE'], 
+    callback: handleButtonInputsClick}));
+    
     document.querySelector('.input-div').remove();
     document.querySelector('.sidebar').append(createInputSection({useLabel: 'disabled', 
     classNames: { inputSection: 'input-div input-disabled', sendBtn: 'send-input-btn input-disabled-btn',
@@ -204,7 +191,7 @@ function handleClearFile(){
 }
 
 export function handleContactClick(){
-    console.log('FN TO HANDLE BOOKING A DEMO');
+
 }
 
 function createPurpleSendButton(classNames){

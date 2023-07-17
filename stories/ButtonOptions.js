@@ -22,7 +22,7 @@ export const createButtonOptions = ({
         //callback === handleButtonInputsClick
         msg.addEventListener('click', (e) => {
             // disable buttons
-            handleButtonInputsClick(e);
+            // handleButtonInputsClick(e);
             if (callback) callback(msg.innerText);
         });
 
@@ -41,15 +41,9 @@ export const createButtonOptions = ({
 
 
 export function handleButtonInputsClick(event){
-    console.log('clicked')
-
-    console.log(event);
-    console.log(event.target);
-    console.log(event.target.tagName);
 
     let userResponseButtons = "";
     if(event.target.tagName === 'SPAN'){
-        console.log('span found');
         userResponseButtons = event.target.innerHTML;
     }else{ 
         let span = event.target;
@@ -78,11 +72,11 @@ export function handleButtonInputsClick(event){
     }}))
 }
 
-function cleanUpButtonEventListeners(){ 
-    let count = 1;
-    console.log(document.querySelectorAll('.buttons-option'));
+export function cleanUpButtonEventListeners(){ 
     const buttonOptions = document.querySelectorAll('.buttons-option')
 
+    console.log('removing the listeners from the buttons')
+    console.log(buttonOptions);
     for(let option of buttonOptions){
         option.removeEventListener('click', handleButtonInputsClick)
     }
