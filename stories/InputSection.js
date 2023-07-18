@@ -13,13 +13,13 @@ export const createInputSection = ({
   const inputSection = document.createElement('div');
   inputSection.className = classNames.inputSection;
 
-
   const input = document.createElement('input');
   input.className = 'user-inpt';
   // input.addEventListener('focus', allowEnter);
 
 
-  if(useLabel === 'disabled'){
+  if (useLabel === 'disabled') {
+    classNames.sendBtn += " disabled"
     inputSection.append(document.createElement('div'), createPurpleSendButton(classNames));
     inputSection.id = 'disabled';
   } else if (useLabel === 'file') {

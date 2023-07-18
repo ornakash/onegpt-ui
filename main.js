@@ -4,10 +4,10 @@ import { createButtonOptions, handleButtonInputsClick } from './stories/ButtonOp
 import { createInputSection, handleSubmitHTTP, handleContactClick } from './stories/InputSection'
 import { createMessage } from './stories/Message'
 import { buttonsStart } from './stories/javascripts/test'
-import { gptEventStream } from './stories/javascripts/api-call'
+import { gptEventStream, fakeGptEventStream } from './stories/javascripts/api-call'
 import { setBotText, onStreamFinish } from './stories/javascripts/api-call'
 
-export { gptEventStream } from "./stories/javascripts/api-call"
+export { gptEventStream, fakeGptEventStream } from "./stories/javascripts/api-call"
 
 // document.querySelector('#app').createPage()
 
@@ -15,6 +15,7 @@ export class ChatUI {
   constructor(wrapper) {
     this.page = createChatPage({})
     this.wrapper = wrapper
+    this.history = []
 
     //last steps
     wrapper.innerHTML = this.page.outerHTML;
@@ -44,7 +45,13 @@ export class ChatUI {
       }
     }));
     document.querySelector('.user-inpt').focus();
-    setInputListeners(callback);
+    setInputListeners((text) => {
+      this.history.push({
+        speaker: "user",
+        utterance: text,
+      });
+      callback(text);
+    });
   }
 
   setFileInput(callback) {
@@ -86,66 +93,75 @@ export class ChatUI {
     });
     stream.addEventListener("done", (event) => {
       onStreamFinish();
+      this.history.push({
+        speaker: "assistant",
+        utterance: event.detail,
+      })
     });
   }
-
 }
 
+let metadata = {};
 
-
-function simpleTest(i, chatUI) {
-  //the callback function is this in the param
-  if (i == 1) {
+function convFlow(chatUI, type) {
+  if (type == "start") {
+    const stream = fakeGptEventStream(`Hey there! 😊 I'm curious to learn more about your product and AI needs. Mind sharing some details with me?`)
+    chatUI.addGptResponse(stream);
+    stream.addEventListener("done", () => {
+      convFlow(chatUI, "text");
+    });
+  } else if (type == "text") {
     chatUI.setTextInput((text) => {
-      const stream = gptEventStream([{ speaker: "user", utterance: text }]);
+      const stream = gptEventStream(chatUI.history, metadata);
       chatUI.addGptResponse(stream);
+      stream.addEventListener("metadata", (event) => {
+        console.log(event.detail);
+        const fields = ["industry", "use_case", "content_type"];
+        // take ONLY fields from event.detail and add to metadata
+        metadata = {
+          ...metadata,
+          ...Object.fromEntries(
+            Object.entries(event.detail).filter(([key, value]) =>
+              fields.includes(key) && value !== "none"
+            )
+          ),
+        };
+        console.log(metadata);
+      });
       stream.addEventListener("done", () => {
-        simpleTest(1, chatUI);
+        if (Object.keys(metadata).length < 3) {
+          convFlow(chatUI, "text");
+        } else {
+          convFlow(chatUI, "buttons");
+        }
       });
     });
-  } else if (i == 0) {
-    chatUI.setButtonsInput(["YES", "NO"], (text) => {
-      const stream = gptEventStream([{ speaker: "user", utterance: text }]);
-      chatUI.addGptResponse(stream);
-      stream.addEventListener("done", () => {
-        simpleTest(1, chatUI);
-      });
+  } else if (type == "buttons") {
+    chatUI.setButtonsInput(["CONTINUE", "EDIT"], (text) => {
+      if (text == "EDIT") {
+        const stream = fakeGptEventStream("Okay. What else would you like me to know?");
+        chatUI.addGptResponse(stream);
+        stream.addEventListener("done", () => {
+          convFlow(chatUI, "text");
+        });
+      } else {
+        const stream = fakeGptEventStream("Great! We'll be in touch soon.");
+        chatUI.addGptResponse(stream);
+        stream.addEventListener("done", () => {
+          console.log("done");
+        });
+      }
     });
   }
 }
+
 
 document.addEventListener('DOMContentLoaded', () => {
   document.body.style.background = '#1d1c29';
-  let myChat = new ChatUI(document.body);
-  // window.gptEventStream = gptEventStream;
+  window.chat = new ChatUI(document.body);
 
-  simpleTest(0, myChat);
+  convFlow(window.chat, "start");
 });
-
-function handleButtonsCallback(text){ 
-  console.log(text);
-
-  //btnClickedString takes on values 'yes' , 'no', 'maybe'
-  console.log(text);
-
-  document.querySelector('.messages-wrapper').prepend(createMessage({content: `Response: ${text}`, first: true, 
-  user: false, buttons: false
-  }))
-
-  //clean up the event listeners from the buttons and put in normal file input
-  cleanUpButtonEventListeners();
-}
-
-function handleTextCallback(i, text, chatUI){
-
-    const stream = gptEventStream([{speaker: "user", utterance: text}]);
-    chatUI.addGptResponse(stream);
-    stream.addEventListener("done", () => {
-      console.log('done');
-      simpleTest(i + 1, chatUI)
-    });
-}
-
 
 /**Call this when you set the inputs to make sure the right listeners are set for each type of input
    * 
