@@ -52,7 +52,7 @@ export const createChatPage = ({
 
     //create fixedBottomInterface
     let inputSection = createInputSection({
-        useLabel: 'text', classNames: {
+        useLabel: 'disabled', classNames: {
             inputSection: 'input-div',
             sendBtn: 'send-input-btn'
         }

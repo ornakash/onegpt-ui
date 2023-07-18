@@ -105,8 +105,11 @@ let metadata = {};
 
 function convFlow(chatUI, type) {
   if (type == "start") {
-    chatUI.addGptResponse(fakeGptEventStream(`Hey there! 😊 I'm curious to learn more about your product and AI needs. Mind sharing some details with me?`));
-    convFlow(chatUI, "text");
+    const stream = fakeGptEventStream(`Hey there! 😊 I'm curious to learn more about your product and AI needs. Mind sharing some details with me?`)
+    chatUI.addGptResponse(stream);
+    stream.addEventListener("done", () => {
+      convFlow(chatUI, "text");
+    });
   } else if (type == "text") {
     chatUI.setTextInput((text) => {
       const stream = gptEventStream(chatUI.history, metadata);
@@ -156,26 +159,9 @@ function convFlow(chatUI, type) {
 document.addEventListener('DOMContentLoaded', () => {
   document.body.style.background = '#1d1c29';
   window.chat = new ChatUI(document.body);
-  // window.gptEventStream = gptEventStream;
 
   convFlow(window.chat, "start");
 });
-
-function handleButtonsCallback(text) {
-  console.log(text);
-
-  //btnClickedString takes on values 'yes' , 'no', 'maybe'
-  console.log(text);
-
-  document.querySelector('.messages-wrapper').prepend(createMessage({
-    content: `Response: ${text}`, first: true,
-    user: false, buttons: false
-  }))
-
-  //clean up the event listeners from the buttons and put in normal file input
-  cleanUpButtonEventListeners();
-}
-
 
 /**Call this when you set the inputs to make sure the right listeners are set for each type of input
    * 
