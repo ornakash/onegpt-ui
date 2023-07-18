@@ -1,6 +1,6 @@
 import './ChatPage.css';
-import {createChatBackground} from './ChatBackground.js'
-import {createFixedBottomInterface} from './FixedBottomInterface.js'
+import { createChatBackground } from './ChatBackground.js'
+import { createFixedBottomInterface } from './FixedBottomInterface.js'
 import { createMessage } from './Message';
 import * as apiCall from './javascripts/api-call';
 import { createInputSection } from './InputSection';
@@ -11,7 +11,7 @@ import { createHeader } from './Header';
 export const createChatPage = ({
     contentType = 'application/json',
     apiKey = '2b2e4354-25cc-4972-994e-da93ea0192a9',
-    project = 'countrypedia-v25',
+    project = 'one-v1',
     cache = true,
     metadeta = undefined,
     threshold = .7,
@@ -43,10 +43,10 @@ export const createChatPage = ({
     const messagesWrapper = document.createElement('div');
     messagesWrapper.className = 'messages-wrapper';
 
-    let message = createMessage({ content: 'Your AI assistant...', user: false, first: true, buttons: false });
-    message.className = 'msg from-ai'
+    // let message = createMessage({ content: 'Your AI assistant...', user: false, first: true, buttons: false });
+    // message.className = 'msg from-ai'
 
-    messagesWrapper.append(message)
+    // messagesWrapper.append(message)
     messagesDiv.append(messagesWrapper);
 
 

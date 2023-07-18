@@ -13,7 +13,7 @@ export function setBotText(text) {
   const messageDiv = document.querySelector(".writing");
   if (messageDiv) {
     const spanElement = messageDiv.firstChild;
-    spanElement.innerHTML = `${text.trimStart()} <span class='cursor-gpt'>&nbsp;</span>`;
+    spanElement.innerHTML = text.trimStart();
   }
 }
 
@@ -27,25 +27,39 @@ export function onStreamFinish() {
   }, 250);
 }
 
-export function addUrl(hrefs, texts){
-    const writingEl = document.querySelector(".writing");
-    const container = document.createElement("div");
-    // let htmlString = `<div class="msg center-msg"><div class="msg-bubble"><div class="msg-text">Looking in `
-    // htmlString += hrefs.map((href, i) => `<a href=${href}>${texts[i]}</a>`).join(", ");
-    // htmlString += `...</div></div></div>`;
-    // container.innerHTML = htmlString;
-    // writingEl.parentElement.insertBefore(container.firstChild, writingEl);
+export function addUrl(hrefs, texts) {
+  const writingEl = document.querySelector(".writing");
+  const container = document.createElement("div");
+  // let htmlString = `<div class="msg center-msg"><div class="msg-bubble"><div class="msg-text">Looking in `
+  // htmlString += hrefs.map((href, i) => `<a href=${href}>${texts[i]}</a>`).join(", ");
+  // htmlString += `...</div></div></div>`;
+  // container.innerHTML = htmlString;
+  // writingEl.parentElement.insertBefore(container.firstChild, writingEl);
 }
 
-export function gptEventStream(chat) {
+export function gptEventStream(chat, metadata = {}) {
   const stream = new EventTarget();
   const createContentEvent = (text) => stream.dispatchEvent(new CustomEvent("content", { detail: text }));
   const createMetadataEvent = (metadata) => stream.dispatchEvent(new CustomEvent("metadata", { detail: metadata }));
-  const createDoneEvent = () => {
-    stream.dispatchEvent(new CustomEvent("done", { detail: true }));
+  const createDoneEvent = (text) => {
+    stream.dispatchEvent(new CustomEvent("done", { detail: text }));
   };
 
-  askGpt(chat, createContentEvent, createMetadataEvent, createDoneEvent);
+  askGpt(chat, metadata, createContentEvent, createMetadataEvent, createDoneEvent);
+  return stream;
+}
+
+export function fakeGptEventStream(message) {
+  const stream = new EventTarget();
+  const words = message.split(" ");
+  const createContentEvent = (i) => {
+    if (i === words.length) stream.dispatchEvent(new CustomEvent("done", { detail: message }));
+    else {
+      stream.dispatchEvent(new CustomEvent("content", { detail: words.slice(0, i + 1).join(" ") }));
+      setTimeout(() => createContentEvent(i + 1), 100 * Math.random());
+    }
+  };
+  setTimeout(() => createContentEvent(0), 500);
   return stream;
 }
 
@@ -55,7 +69,7 @@ export function gptEventStream(chat) {
  * @param {*} onText helper function that writes responses into the UI as they come
  * @param {*} onMetadata adds the URL source that we prepend before the AI response
  */
-export function askGpt(chat, onText, onMetadata, onFinish) {
+export function askGpt(chat, metadata, onText, onMetadata, onFinish) {
   let writeMarkdown = "";
   onText("", false);
   let abortController = new AbortController();
@@ -77,7 +91,7 @@ export function askGpt(chat, onText, onMetadata, onFinish) {
           params: {
             project: params.value.project,
             cache: params.value.cache,
-            //   metadata: urlParams,
+            metadata,
             threshold: params.value.threshold,
             max_items: params.value.maxItems,
             temperature: params.value.temperature,
@@ -101,7 +115,7 @@ export function askGpt(chat, onText, onMetadata, onFinish) {
                 onText(writeMarkdown, true);
                 controller.close();
                 abortController = undefined;
-                if (onFinish) onFinish();
+                if (onFinish) onFinish(writeMarkdown);
                 return;
               }
               const decodedValue = new TextDecoder('utf-8').decode(value);

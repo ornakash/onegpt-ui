@@ -24,15 +24,16 @@ export const createMessage = ({
   const spanWithResponse = document.createElement('span');
   spanWithResponse.innerHTML = content;
 
+  message.append()
+  spanWrapper.append(spanWithResponse);
+
   if (!user && !first) {
     const spanCursor = document.createElement('span');
     spanCursor.className = 'cursor-gpt';
     spanCursor.innerHTML = '&nbsp;';
-    spanWithResponse.append(spanCursor);
+    spanWrapper.append(spanCursor);
   }
 
-  message.append()
-  spanWrapper.append(spanWithResponse);
   if (buttons === true) {
     message.append(spanWrapper)
 
