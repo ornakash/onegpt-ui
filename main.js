@@ -54,6 +54,17 @@ export class ChatUI {
     });
   }
 
+  setDisabledInput(){ 
+    this.wrapper.querySelector('.input-div').remove();
+    this.wrapper.querySelector('.sidebar').append(createInputSection({
+      useLabel: 'disabled', classNames: {
+        inputSection: 'input-div input-disabled', 
+        sendBtn: 'send-input-btn input-disabled-btn'
+      },
+    }))
+    setInputListeners(callback)
+  }
+
   setFileInput(callback) {
     this.wrapper.querySelector('.input-div').remove();
     this.wrapper.querySelector('.sidebar').append(createInputSection({
@@ -174,10 +185,12 @@ export function setInputListeners(btnCallback) {
     const text = document.querySelector('.user-inpt').value;
     // document.querySelector('.send-input-btn').addEventListener('click', () => btnCallback(text));
   }
-  if (document.querySelector('.user-inpt')) { //if input has user-inpt, give it listeners on focus
+  if (document.querySelector('.user-inpt')) { 
+    //if input has user-inpt, give it listeners on focus
     allowEnter(btnCallback);
   }
   if (document.querySelector('.input-book-demo')) {
+    //setting the listeners for the BOOK DEMO input section
     document.querySelector('.input-book-demo').addEventListener('click', btnCallback)
   }
 }

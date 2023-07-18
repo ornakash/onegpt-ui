@@ -20,7 +20,7 @@ export const createInputSection = ({
 
   if (useLabel === 'disabled') {
     classNames.sendBtn += " disabled"
-    inputSection.append(document.createElement('div'), createPurpleSendButton(classNames));
+    inputSection.append(createDisabledInputSection(), createPurpleSendButton(classNames));
     inputSection.id = 'disabled';
   } else if (useLabel === 'file') {
     inputSection.append(createFileInputSection(), createPurpleSendButton(classNames));
@@ -43,6 +43,24 @@ export const createInputSection = ({
 function replaceInputSection(desiredInput, wrapper = document.body) {
   wrapper.querySelector('input-div').remove();
   // wrapper.querySelector('.messages-div').append(createInputSection({useLabel: desiredInput, clas}))
+}
+
+
+function createDisabledInputSection(){
+  const input = document.createElement('input');
+  input.disabled = true;
+  input.className = 'user-inpt';
+  input.id = 'text';
+  input.autocomplete = 'off';
+  input.spellcheck = false;
+  input.placeholder = "Send a message..."
+
+  // on value change, check if the value is empty or not
+  const updateButton = () => {
+    document.querySelector('.send-input-btn').classList.toggle('disabled', input.value.length === 0);
+  };
+  input.addEventListener('input', updateButton);
+  return input
 }
 
 function createBookDemoContactInputSection() {
