@@ -103,28 +103,10 @@ export class ChatUI {
 
 let metadata = {};
 
-function simpleTest(chatUI, type) {
-  //the callback function is this in the param
-  // if (type == 1) {
-  //   chatUI.setTextInput((text) => {
-  //     const stream = gptEventStream([{ speaker: "user", utterance: text }]);
-  //     chatUI.addGptResponse(stream);
-  //     stream.addEventListener("done", () => {
-  //       simpleTest(1, chatUI);
-  //     });
-  //   });
-  // } else if (type == 0) {
-  //   chatUI.setButtonsInput(["YES", "NO"], (text) => {
-  //     const stream = gptEventStream([{ speaker: "user", utterance: text }]);
-  //     chatUI.addGptResponse(stream);
-  //     stream.addEventListener("done", () => {
-  //       simpleTest(1, chatUI);
-  //     });
-  //   });
-  // }
+function convFlow(chatUI, type) {
   if (type == "start") {
     chatUI.addGptResponse(fakeGptEventStream(`Hey there! 😊 I'm curious to learn more about your product and AI needs. Mind sharing some details with me?`));
-    simpleTest(chatUI, "text");
+    convFlow(chatUI, "text");
   } else if (type == "text") {
     chatUI.setTextInput((text) => {
       const stream = gptEventStream(chatUI.history, metadata);
@@ -145,9 +127,9 @@ function simpleTest(chatUI, type) {
       });
       stream.addEventListener("done", () => {
         if (Object.keys(metadata).length < 3) {
-          simpleTest(chatUI, "text");
+          convFlow(chatUI, "text");
         } else {
-          simpleTest(chatUI, "buttons");
+          convFlow(chatUI, "buttons");
         }
       });
     });
@@ -157,7 +139,7 @@ function simpleTest(chatUI, type) {
         const stream = fakeGptEventStream("Okay. What else would you like me to know?");
         chatUI.addGptResponse(stream);
         stream.addEventListener("done", () => {
-          simpleTest(chatUI, "text");
+          convFlow(chatUI, "text");
         });
       } else {
         const stream = fakeGptEventStream("Great! We'll be in touch soon.");
@@ -176,7 +158,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.chat = new ChatUI(document.body);
   // window.gptEventStream = gptEventStream;
 
-  simpleTest(window.chat, "start");
+  convFlow(window.chat, "start");
 });
 
 function handleButtonsCallback(text) {
