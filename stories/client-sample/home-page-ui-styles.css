@@ -46,6 +46,24 @@ body {
     opacity: 100%;
 }
 
+.sidebar-wrapper.fade-out{
+    animation-name: fade-out;
+    animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
+    z-index: 0;
+}
+
+@keyframes fade-out {
+    from {
+        transform: scale(1);
+        opacity: 100%
+    }
+
+    to {
+        transform: scale(0.01);
+        opacity: 0%
+    }
+}
 
 @keyframes fade-in {
     from {
@@ -63,6 +81,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    z-index: 1;
 }
 
 
@@ -96,22 +115,36 @@ body {
 .chat-ui-controller-btns-ctr {
     display: flex;
     gap: 20px;
+    
+
+
+}
+
+.chat-ui-home-btns-wrapper{
+    border: 2px solid #0FF;
+    height: 70px;    
+    width: 220px;
+    padding: 20px 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chat-ui-controller-btns-ctr * {
-    display: flex;
+    /* display: flex; */
+    display: block;
     box-sizing: border-box;
-    width: 220px;
-    height: 70px;
     justify-content: center;
     align-items: center;
-    border: 2px solid #0FF;
     background: #1D1C29;
+    text-align: center;
+    margin-bottom: 2px;
 }
 
+
 .chat-ui-home-btns-wrapper * {
-    color: #00FFFF;
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
+
 }
