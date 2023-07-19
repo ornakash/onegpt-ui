@@ -7,10 +7,14 @@ import { gptEventStream, fakeGptEventStream } from './stories/javascripts/api-ca
 import { setBotText, onStreamFinish } from './stories/javascripts/api-call'
 
 class ChatUI {
-  constructor(wrapper) {
+  constructor(wrapper, onClose) {
+
     this.page = createChatPage({})
     this.wrapper = wrapper
     this.history = []
+
+    //give close button an event listener
+    document.querySelector('.close-wrapper-div').addEventListener('click', onClose);
 
     //last steps
     wrapper.innerHTML = this.page.outerHTML;
