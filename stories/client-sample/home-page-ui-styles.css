@@ -1,0 +1,100 @@
+body{ 
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgb(29,28,41);
+}
+
+.sidebar-wrapper{ 
+    position: absolute;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+    opacity: 0%;
+}
+
+.sidebar-wrapper.fade-in{
+    animation-name: fade-in;
+    animation-duration: 0.5s;
+    z-index: 3;
+    opacity: 100%;
+}
+
+
+@keyframes fade-in {
+    from{ 
+        opacity: 0%;
+    }    
+    to{ 
+        opacity: 100%;
+    }
+}
+
+
+/* wrapper for the compenent */
+.interface-wrapper{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+
+}
+
+
+.chat-ui-home-controller{
+
+}
+
+.chat-ui-controller * { 
+}
+
+
+.chat-ui-controller-header{
+    margin: 0 auto;
+    width: 395px;
+    /* height: 111px; */
+    padding: 22px 25px 20px 25px;
+    background-color: #393849;
+    margin-bottom: 47px;
+    justify-content: flex-start;
+    align-items: flex-start;
+    box-sizing: border-box;
+
+}
+
+.chat-ui-controller-header span{
+    color: var(--gray-light-05, #EDEDED);
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px; /* 150% */
+}
+
+.chat-ui-controller-btns-ctr{
+    display: flex;
+    gap: 20px;
+}
+
+.chat-ui-controller-btns-ctr *{
+    display: flex;
+    box-sizing: border-box;
+    width: 220px;
+    height: 70px;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid #0FF;
+    background: #1D1C29;
+}
+
+.chat-ui-home-btns-wrapper *{
+    color: #00FFFF;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+}
