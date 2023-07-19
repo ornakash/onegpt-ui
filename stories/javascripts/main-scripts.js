@@ -20,7 +20,7 @@ export function sendChat() {
   const textInput = document.querySelector('.user-inpt');
   const userQuery = textInput.value;
 
-  
+
   //check for no value or chat not allowed
   if (!userQuery || !chatAllowed) {
     return;
@@ -72,14 +72,15 @@ function checkForEnter(event) {
 
   const value = userInput.value;
 
-  const isEnter = (event.key === 'Enter' && document.activeElement === userInput) || 
-    (event.type === 'click' && event.target.classList.contains('send-input-btn')); 
-    
- 
-  if(isEnter && userInput.id === 'text'){
+  const isEnter = (event.key === 'Enter' && document.activeElement === userInput) ||
+    (event.type === 'click' && event.target.classList.contains('send-input-btn'));
+
+
+  if (isEnter && userInput.id === 'text') {
     //if there user is trying to submit a text input
     userInput.value = '';
     userInput.disabled = true;
+    userInput.placeholder = 'Waiting for AI response...';
     button.classList.add('disabled');
     return value;
   } else if (isEnter && userInput.id === 'file') {

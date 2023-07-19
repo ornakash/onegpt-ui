@@ -54,11 +54,11 @@ export class ChatUI {
     });
   }
 
-  setDisabledInput(){ 
+  setDisabledInput() {
     this.wrapper.querySelector('.input-div').remove();
     this.wrapper.querySelector('.sidebar').append(createInputSection({
       useLabel: 'disabled', classNames: {
-        inputSection: 'input-div input-disabled', 
+        inputSection: 'input-div input-disabled',
         sendBtn: 'send-input-btn input-disabled-btn'
       },
     }))
@@ -148,7 +148,7 @@ function convFlow(chatUI, type) {
       });
     });
   } else if (type == "buttons") {
-    chatUI.setButtonsInput(["CONTINUE", "EDIT"], (text) => {
+    chatUI.setButtonsInput(["CORRECT", "EDIT"], (text) => {
       if (text == "EDIT") {
         const stream = fakeGptEventStream("Okay. What else would you like me to know?");
         chatUI.addGptResponse(stream);
@@ -185,7 +185,7 @@ export function setInputListeners(btnCallback) {
     const text = document.querySelector('.user-inpt').value;
     // document.querySelector('.send-input-btn').addEventListener('click', () => btnCallback(text));
   }
-  if (document.querySelector('.user-inpt')) { 
+  if (document.querySelector('.user-inpt')) {
     //if input has user-inpt, give it listeners on focus
     allowEnter(btnCallback);
   }
