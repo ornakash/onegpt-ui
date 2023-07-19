@@ -8,16 +8,14 @@ import { setBotText, onStreamFinish } from './stories/javascripts/api-call'
 
 class ChatUI {
   constructor(wrapper, onClose) {
-
     this.page = createChatPage({})
     this.wrapper = wrapper
     this.history = []
 
-    //give close button an event listener
-    document.querySelector('.close-wrapper-div').addEventListener('click', onClose);
-
     //last steps
     wrapper.innerHTML = this.page.outerHTML;
+    //give close button an event listener
+    wrapper.querySelector('.close-wrapper-div').addEventListener('click', onClose);
     attachEventListeners()
   }
 
@@ -167,12 +165,12 @@ function convFlow(chatUI, type) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.style.background = '#1d1c29';
-  window.chat = new ChatUI(document.body);
+  // document.body.style.background = '#1d1c29';
+  // window.chat = new ChatUI(document.body);
 
-  convFlow(window.chat, "start");
-  window.createChatUI = ({ wrapper }) => {
-    const chatUI = new ChatUI(wrapper);
+  // convFlow(window.chat, "start");
+  window.createChatUI = ({ wrapper, onClose }) => {
+    const chatUI = new ChatUI(wrapper, onClose);
     convFlow(chatUI, "start");
     return chatUI;
   };
