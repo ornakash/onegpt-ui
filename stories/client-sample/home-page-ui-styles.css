@@ -1,14 +1,30 @@
-body{ 
+body {
     margin: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgb(29,28,41);
+    width: 100vw;
+    height: 100vh;
+    font-family: 'IBM Plex Mono';
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.sidebar-wrapper{ 
+.main-wrapper {
+    width: 90%;
+    height: 90%;
+    position: relative;
+    background-color: #1D1C29;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.sidebar-wrapper {
     position: absolute;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -16,46 +32,46 @@ body{
     opacity: 0%;
 }
 
-.sidebar-wrapper.fade-in{
+.sidebar-wrapper .sidebar {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+}
+
+.sidebar-wrapper.fade-in {
     animation-name: fade-in;
     animation-duration: 0.5s;
+    animation-timing-function: cubic-bezier(0.075, 0.82, 0.165, 1);
     z-index: 3;
     opacity: 100%;
 }
 
 
 @keyframes fade-in {
-    from{ 
-        opacity: 0%;
-    }    
-    to{ 
-        opacity: 100%;
+    from {
+        transform: scale(0.01);
+    }
+
+    to {
+        transform: scale(1);
     }
 }
 
 
 /* wrapper for the compenent */
-.interface-wrapper{
-    height: 100vh;
-    width: 100vw;
-    position: relative;
+.interface-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    z-index: 2;
-
 }
 
 
-.chat-ui-home-controller{
+.chat-ui-home-controller {}
 
-}
-
-.chat-ui-controller * { 
-}
+.chat-ui-controller * {}
 
 
-.chat-ui-controller-header{
+.chat-ui-controller-header {
     margin: 0 auto;
     width: 395px;
     /* height: 111px; */
@@ -68,20 +84,21 @@ body{
 
 }
 
-.chat-ui-controller-header span{
+.chat-ui-controller-header span {
     color: var(--gray-light-05, #EDEDED);
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
-    line-height: 24px; /* 150% */
+    line-height: 24px;
+    /* 150% */
 }
 
-.chat-ui-controller-btns-ctr{
+.chat-ui-controller-btns-ctr {
     display: flex;
     gap: 20px;
 }
 
-.chat-ui-controller-btns-ctr *{
+.chat-ui-controller-btns-ctr * {
     display: flex;
     box-sizing: border-box;
     width: 220px;
@@ -92,7 +109,7 @@ body{
     background: #1D1C29;
 }
 
-.chat-ui-home-btns-wrapper *{
+.chat-ui-home-btns-wrapper * {
     color: #00FFFF;
     font-size: 14px;
     font-style: normal;
