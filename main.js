@@ -168,10 +168,15 @@ function convFlow(chatUI, type) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.body.style.background = '#1d1c29';
-  window.chat = new ChatUI(document.body);
+  // document.body.style.background = '#1d1c29';
+  // window.chat = new ChatUI(document.body);
 
-  convFlow(window.chat, "start");
+  // convFlow(window.chat, "start");
+  window.createChatUI = (wrapper) => {
+    const chatUI = new ChatUI(wrapper);
+    convFlow(chatUI, "start");
+    return chatUI;
+  };
 });
 
 /**Call this when you set the inputs to make sure the right listeners are set for each type of input
