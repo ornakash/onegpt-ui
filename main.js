@@ -3,15 +3,10 @@ import { attachEventListeners, allowEnter } from './stories/javascripts/main-scr
 import { createButtonOptions, handleButtonInputsClick } from './stories/ButtonOptions'
 import { createInputSection, handleSubmitHTTP, handleContactClick } from './stories/InputSection'
 import { createMessage } from './stories/Message'
-import { buttonsStart } from './stories/javascripts/test'
 import { gptEventStream, fakeGptEventStream } from './stories/javascripts/api-call'
 import { setBotText, onStreamFinish } from './stories/javascripts/api-call'
 
-export { gptEventStream, fakeGptEventStream } from "./stories/javascripts/api-call"
-
-// document.querySelector('#app').createPage()
-
-export class ChatUI {
+class ChatUI {
   constructor(wrapper) {
     this.page = createChatPage({})
     this.wrapper = wrapper
@@ -168,10 +163,10 @@ function convFlow(chatUI, type) {
 
 
 document.addEventListener('DOMContentLoaded', () => {
-  // document.body.style.background = '#1d1c29';
-  // window.chat = new ChatUI(document.body);
+  document.body.style.background = '#1d1c29';
+  window.chat = new ChatUI(document.body);
 
-  // convFlow(window.chat, "start");
+  convFlow(window.chat, "start");
   window.createChatUI = (wrapper) => {
     const chatUI = new ChatUI(wrapper);
     convFlow(chatUI, "start");
@@ -183,7 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
    * 
    * @param {function} btnCallback -- handler function for the purple input button
    */
-export function setInputListeners(btnCallback) {
+function setInputListeners(btnCallback) {
   if (document.querySelector('.send-input-btn')) {
     //text or file input
 

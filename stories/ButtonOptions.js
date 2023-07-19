@@ -1,6 +1,4 @@
-import { setInputListeners } from '../main';
 import './buttonOptions.css';
-import { createInputSection } from './InputSection';
 import { createMessage } from './Message';
 
 export const createButtonOptions = ({
