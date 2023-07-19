@@ -46,14 +46,14 @@ function replaceInputSection(desiredInput, wrapper = document.body) {
 }
 
 
-function createDisabledInputSection(){
+function createDisabledInputSection() {
   const input = document.createElement('input');
   input.disabled = true;
   input.className = 'user-inpt';
   input.id = 'text';
   input.autocomplete = 'off';
   input.spellcheck = false;
-  input.placeholder = "Send a message..."
+  input.placeholder = "Waiting for AI response..."
 
   // on value change, check if the value is empty or not
   const updateButton = () => {

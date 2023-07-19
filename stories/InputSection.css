@@ -68,23 +68,25 @@
 .send-input-btn.disabled {
     background-color: #4F4D65;
     cursor: default;
-
-    .smaller-arrow-right {
-        border-left: 25px solid #4F4D65;
-    }
 }
+
+.send-input-btn.disabled .smaller-arrow-right {
+    border-left: 25px solid #4F4D65;
+}
+
 
 .send-input-btn:not(.disabled):hover {
     background-color: #4d4dff;
-
-    .smaller-arrow-right {
-        border-left: 22px solid #4d4dff;
-    }
-
-    .arrow-right {
-        border-left: 25px solid #ededed;
-    }
 }
+
+.send-input-btn:not(.disabled):hover .smaller-arrow-right {
+    border-left: 22px solid #4d4dff;
+}
+
+.send-input-btn:not(.disabled):hover .arrow-right {
+    border-left: 25px solid #ededed;
+}
+
 
 .arrow-right {
     width: 0;

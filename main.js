@@ -3,15 +3,10 @@ import { attachEventListeners, allowEnter } from './stories/javascripts/main-scr
 import { createButtonOptions, handleButtonInputsClick } from './stories/ButtonOptions'
 import { createInputSection, handleSubmitHTTP, handleContactClick } from './stories/InputSection'
 import { createMessage } from './stories/Message'
-import { buttonsStart } from './stories/javascripts/test'
 import { gptEventStream, fakeGptEventStream } from './stories/javascripts/api-call'
 import { setBotText, onStreamFinish } from './stories/javascripts/api-call'
 
-export { gptEventStream, fakeGptEventStream } from "./stories/javascripts/api-call"
-
-// document.querySelector('#app').createPage()
-
-export class ChatUI {
+class ChatUI {
   constructor(wrapper) {
     this.page = createChatPage({})
     this.wrapper = wrapper
@@ -54,11 +49,11 @@ export class ChatUI {
     });
   }
 
-  setDisabledInput(){ 
+  setDisabledInput() {
     this.wrapper.querySelector('.input-div').remove();
     this.wrapper.querySelector('.sidebar').append(createInputSection({
       useLabel: 'disabled', classNames: {
-        inputSection: 'input-div input-disabled', 
+        inputSection: 'input-div input-disabled',
         sendBtn: 'send-input-btn input-disabled-btn'
       },
     }))
@@ -148,7 +143,7 @@ function convFlow(chatUI, type) {
       });
     });
   } else if (type == "buttons") {
-    chatUI.setButtonsInput(["CONTINUE", "EDIT"], (text) => {
+    chatUI.setButtonsInput(["CORRECT", "EDIT"], (text) => {
       if (text == "EDIT") {
         const stream = fakeGptEventStream("Okay. What else would you like me to know?");
         chatUI.addGptResponse(stream);
@@ -172,20 +167,25 @@ document.addEventListener('DOMContentLoaded', () => {
   window.chat = new ChatUI(document.body);
 
   convFlow(window.chat, "start");
+  window.createChatUI = ({ wrapper }) => {
+    const chatUI = new ChatUI(wrapper);
+    convFlow(chatUI, "start");
+    return chatUI;
+  };
 });
 
 /**Call this when you set the inputs to make sure the right listeners are set for each type of input
    * 
    * @param {function} btnCallback -- handler function for the purple input button
    */
-export function setInputListeners(btnCallback) {
+function setInputListeners(btnCallback) {
   if (document.querySelector('.send-input-btn')) {
     //text or file input
 
     const text = document.querySelector('.user-inpt').value;
     // document.querySelector('.send-input-btn').addEventListener('click', () => btnCallback(text));
   }
-  if (document.querySelector('.user-inpt')) { 
+  if (document.querySelector('.user-inpt')) {
     //if input has user-inpt, give it listeners on focus
     allowEnter(btnCallback);
   }
