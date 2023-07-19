@@ -60,15 +60,15 @@ function createInterface(headerText, buttonsText) {
     return wrapper;
 }
 
-function onCloseCallback(){ 
-    
+function onCloseCallback() {
+
 }
 
 function showBizGPTUI(event) {
     console.log('test');
     console.log(event);
 
-    createChatUI({ wrapper: document.querySelector('.chat-ui-wrapper') });
+    createChatUI({ wrapper: document.querySelector('.chat-ui-wrapper'), onClose: () => { console.log("poop") } });
 
     //give style to the div surrounding the ONE AI chat
     const UIWrapper = document.querySelector('.chat-ui-wrapper').firstChild;

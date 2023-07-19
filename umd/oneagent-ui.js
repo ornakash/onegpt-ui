@@ -347,8 +347,8 @@ const U = ({}) => {
   ), d;
 };
 class te {
-  constructor(e) {
-    this.page = ee({}), this.wrapper = e, this.history = [], e.innerHTML = this.page.outerHTML, P();
+  constructor(e, n) {
+    this.page = ee({}), this.wrapper = e, this.history = [], e.innerHTML = this.page.outerHTML, e.querySelector(".close-wrapper-div").addEventListener("click", n), P();
   }
   /** FUNCTION WILL SET BUTTONS UI
    * 
@@ -459,9 +459,9 @@ function g(t, e) {
     });
 }
 document.addEventListener("DOMContentLoaded", () => {
-  window.createChatUI = ({ wrapper: t }) => {
-    const e = new te(t);
-    return g(e, "start"), e;
+  window.createChatUI = ({ wrapper: t, onClose: e }) => {
+    const n = new te(t, e);
+    return g(n, "start"), n;
   };
 });
 function w(t) {
