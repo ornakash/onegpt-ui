@@ -54,6 +54,9 @@ function createInterface(headerText, buttonsText){
     return wrapper;
 }
 
+function onCloseCallback(){ 
+    
+}
 
 function showBizGPTUI(event){ 
     console.log('test');
