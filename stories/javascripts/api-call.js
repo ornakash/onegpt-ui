@@ -92,6 +92,7 @@ export function askGpt(chat, metadata, onText, onMetadata, onFinish) {
             project: params.value.project,
             cache: params.value.cache,
             metadata,
+            disable_search: true,
             threshold: params.value.threshold,
             max_items: params.value.maxItems,
             temperature: params.value.temperature,
