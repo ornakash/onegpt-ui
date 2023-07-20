@@ -42,7 +42,7 @@ const f = ({
   const a = document.querySelector(".input-div"), r = a.querySelector(".user-inpt");
   return a.querySelector(".send-input-btn").classList.add("disabled"), r.value = "", r.disabled = !0, r.placeholder = "Select an option", n;
 };
-function D(t) {
+function F(t) {
   if (t.target.tagName === "SPAN")
     t.target.innerHTML;
   else {
@@ -55,23 +55,23 @@ function D(t) {
 const u = {
   value: void 0
 };
-function F(t) {
+function D(t) {
   const e = document.querySelector(".writing");
   if (e) {
     const n = e.firstChild;
     n.innerHTML = t.trimStart();
   }
 }
-function O() {
+function H() {
   const t = document.querySelector(".writing");
   t.className = "span-wrapper", setTimeout(() => {
     document.querySelector(".cursor-gpt").remove();
   }, 250);
 }
-function H(t, e = {}) {
+function O(t, e = {}) {
   const n = new EventTarget();
   let s = !1;
-  return W(t, e, (i) => {
+  return G(t, e, (i) => {
     s || n.dispatchEvent(new CustomEvent("content", { detail: i }));
   }, (i) => {
     s || n.dispatchEvent(new CustomEvent("metadata", { detail: i }));
@@ -81,7 +81,7 @@ function H(t, e = {}) {
     s = !0;
   }, n;
 }
-function k(t) {
+function y(t) {
   const e = new EventTarget(), n = t.split(" "), s = (o) => {
     o === n.length ? e.dispatchEvent(new CustomEvent("done", { detail: t })) : (e.dispatchEvent(new CustomEvent("content", { detail: n.slice(0, o + 1).join(" ") })), setTimeout(() => s(o + 1), 100 * Math.random()));
   };
@@ -91,7 +91,7 @@ let m;
 function R() {
   m !== void 0 && (m.abort(), m = void 0);
 }
-function W(t, e, n, s, o) {
+function G(t, e, n, s, o) {
   let a = "";
   n("", !1), m = new AbortController();
   const r = {
@@ -130,12 +130,12 @@ function W(t, e, n, s, o) {
     return new ReadableStream({
       start(v) {
         function h() {
-          d.read().then(({ done: y, value: T }) => {
-            if (y) {
+          d.read().then(({ done: k, value: M }) => {
+            if (k) {
               n(a, !0), v.close(), m = void 0, o && o(a);
               return;
             }
-            const x = new TextDecoder("utf-8").decode(T).split(`
+            const x = new TextDecoder("utf-8").decode(M).split(`
 `);
             for (let E of x)
               if (l && E === "")
@@ -158,7 +158,7 @@ function W(t, e, n, s, o) {
     });
   }).catch(console.error);
 }
-const G = document.querySelector("body");
+const W = document.querySelector("body");
 function P() {
   const t = new MutationObserver((n) => {
     for (const s of n)
@@ -166,14 +166,14 @@ function P() {
         for (const o of s.addedNodes)
           o.className === "custom-file-input-div file-input-div-disabled" ? document.querySelector(".send-input-btn").addEventListener("click", I) : o.className === "input-div" && o.id === "file" || o.className === "input-div" && o.id;
   }), e = { childList: !0, subtree: !0 };
-  t.observe(G, e);
+  t.observe(W, e);
 }
 function j() {
   P();
 }
 function A(t) {
   const e = document.querySelector(".user-inpt"), n = document.querySelector(".send-input-btn"), s = e.value, o = t.key === "Enter" && document.activeElement === e || t.type === "click" && t.target.classList.contains("send-input-btn");
-  return o && e.id === "text" ? (e.value = "", e.disabled = !0, e.placeholder = "Waiting for AI response...", n.classList.add("disabled"), s) : o && e.id === "file" ? (M(), s) : void 0;
+  return o && e.id === "text" ? (e.value = "", e.disabled = !0, e.placeholder = "Waiting for AI response...", n.classList.add("disabled"), s) : o && e.id === "file" ? (T(), s) : void 0;
 }
 let g;
 function _(t) {
@@ -245,7 +245,7 @@ function I(t) {
     buttons: !1
   })), X();
 }
-function M() {
+function T() {
   console.log("handleSubmitHTTP called");
   const e = document.querySelector(".user-inpt").value;
   document.querySelector(".messages-wrapper").prepend(f({
@@ -270,10 +270,10 @@ function Q(t) {
   const s = document.createElement("span");
   s.innerHTML = `File: ${t}`;
   const o = q(V);
-  o.style.marginLeft = "auto", o.addEventListener("click", U), document.querySelector(".send-input-btn").removeEventListener("click", M), e.append(s, n, o);
+  o.style.marginLeft = "auto", o.addEventListener("click", U), document.querySelector(".send-input-btn").removeEventListener("click", T), e.append(s, n, o);
 }
 function X() {
-  document.querySelector(".messages-wrapper").prepend(N({ preferences: ["YES", "NO", "IMPROVE"], callback: D })), document.querySelector(".input-div").remove(), document.querySelector(".sidebar").append(p({
+  document.querySelector(".messages-wrapper").prepend(N({ preferences: ["YES", "NO", "IMPROVE"], callback: F })), document.querySelector(".input-div").remove(), document.querySelector(".sidebar").append(p({
     useLabel: "disabled",
     classNames: {
       inputSection: "input-div input-disabled",
@@ -337,14 +337,14 @@ const ee = ({}) => {
   v.className = "messages";
   const h = document.createElement("div");
   h.className = "messages-wrapper", v.append(h);
-  let y = p({
+  let k = p({
     useLabel: "disabled",
     classNames: {
       inputSection: "input-div",
       sendBtn: "send-input-btn"
     }
   });
-  return c.appendChild(l), c.append(v), c.append(y), d.append(c), localStorage.setItem("headers", { "Content-Type": t, "api-key": e }), localStorage.setItem(
+  return c.appendChild(l), c.append(v), c.append(k), d.append(c), localStorage.setItem("headers", { "Content-Type": t, "api-key": e }), localStorage.setItem(
     "params",
     {
       project: n,
@@ -420,10 +420,10 @@ class ne {
   }
   addGptResponse(e) {
     this.showUIMessage("", !1, !1), e.addEventListener("content", (n) => {
-      F(n.detail);
+      D(n.detail);
     }), e.addEventListener("metadata", (n) => {
     }), e.addEventListener("done", (n) => {
-      O(), this.history.push({
+      H(), this.history.push({
         speaker: "assistant",
         utterance: n.detail
       });
@@ -433,13 +433,13 @@ class ne {
 let L = {};
 function b(t, e) {
   if (e == "start") {
-    const n = k("Hey there! 😊 I'm curious to learn more about your product and AI needs. Mind sharing some details with me?");
+    const n = y("Hey there! 😊 I'm curious to learn more about your product and AI needs. Mind sharing some details with me?");
     t.addGptResponse(n), n.addEventListener("done", () => {
       b(t, "text");
     });
   } else
     e == "text" ? t.setTextInput((n) => {
-      const s = H(t.history, L);
+      const s = O(t.history, L);
       t.addGptResponse(s), s.addEventListener("metadata", (o) => {
         console.log(o.detail);
         const a = ["industry", "use_case", "content_type"];
@@ -456,24 +456,23 @@ function b(t, e) {
       });
     }) : e == "buttons" && t.setButtonsInput(["CORRECT", "EDIT"], (n) => {
       if (n == "EDIT") {
-        const s = k("Okay. What else would you like me to know?");
+        const s = y("Okay. What else would you like me to know?");
         t.addGptResponse(s), s.addEventListener("done", () => {
           b(t, "text");
         });
       } else {
-        const s = k("Great! We'll be in touch soon.");
+        const s = y("Great! We'll be in touch soon.");
         t.addGptResponse(s), s.addEventListener("done", () => {
           console.log("done");
         });
       }
     });
 }
-document.addEventListener("DOMContentLoaded", () => {
-  window.createChatUI = ({ wrapper: t, onClose: e }) => {
-    const n = new ne(t, e);
-    return b(n, "start"), n;
-  };
-});
 function w(t) {
   document.querySelector(".send-input-btn") && document.querySelector(".user-inpt").value, document.querySelector(".user-inpt") && _(t), document.querySelector(".input-book-demo") && document.querySelector(".input-book-demo").addEventListener("click", t);
 }
+window.createChatUI = ({ wrapper: t, onClose: e }) => {
+  const n = new ne(t, e);
+  return b(n, "start"), n;
+};
+window.fakeGptEventStream = y;

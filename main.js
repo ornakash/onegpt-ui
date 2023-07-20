@@ -164,19 +164,6 @@ function convFlow(chatUI, type) {
   }
 }
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  // document.body.style.background = '#1d1c29';
-  // window.chat = new ChatUI(document.body);
-
-  // convFlow(window.chat, "start");
-  window.createChatUI = ({ wrapper, onClose }) => {
-    const chatUI = new ChatUI(wrapper, onClose);
-    convFlow(chatUI, "start");
-    return chatUI;
-  };
-});
-
 /**Call this when you set the inputs to make sure the right listeners are set for each type of input
    * 
    * @param {function} btnCallback -- handler function for the purple input button
@@ -197,3 +184,13 @@ function setInputListeners(btnCallback) {
     document.querySelector('.input-book-demo').addEventListener('click', btnCallback)
   }
 }
+
+/** Define stuff */
+
+window.createChatUI = ({ wrapper, onClose }) => {
+  const chatUI = new ChatUI(wrapper, onClose);
+  convFlow(chatUI, "start");
+  return chatUI;
+};
+
+window.fakeGptEventStream = fakeGptEventStream;
