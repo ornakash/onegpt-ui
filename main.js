@@ -3,7 +3,7 @@ import { attachEventListeners, allowEnter } from './stories/javascripts/main-scr
 import { createButtonOptions, handleButtonInputsClick } from './stories/ButtonOptions'
 import { createInputSection, handleSubmitHTTP, handleContactClick } from './stories/InputSection'
 import { createMessage } from './stories/Message'
-import { gptEventStream, fakeGptEventStream } from './stories/javascripts/api-call'
+import { gptEventStream, fakeGptEventStream, killStream } from './stories/javascripts/api-call'
 import { setBotText, onStreamFinish } from './stories/javascripts/api-call'
 
 class ChatUI {
@@ -12,6 +12,7 @@ class ChatUI {
     this.wrapper = wrapper
     this.history = []
 
+    killStream();
     //last steps
     wrapper.innerHTML = this.page.outerHTML;
     //give close button an event listener

@@ -37,17 +37,51 @@ export function addUrl(hrefs, texts) {
   // writingEl.parentElement.insertBefore(container.firstChild, writingEl);
 }
 
+// export function gptEventStream(chat, metadata = {}) {
+//   const stream = new EventTarget();
+//   const createContentEvent = (text) => stream.dispatchEvent(new CustomEvent("content", { detail: text }));
+//   const createMetadataEvent = (metadata) => stream.dispatchEvent(new CustomEvent("metadata", { detail: metadata }));
+//   const createDoneEvent = (text) => {
+//     stream.dispatchEvent(new CustomEvent("done", { detail: text }));
+//   };
+
+//   askGpt(chat, metadata, createContentEvent, createMetadataEvent, createDoneEvent);
+//   return stream;
+// }
+
 export function gptEventStream(chat, metadata = {}) {
   const stream = new EventTarget();
-  const createContentEvent = (text) => stream.dispatchEvent(new CustomEvent("content", { detail: text }));
-  const createMetadataEvent = (metadata) => stream.dispatchEvent(new CustomEvent("metadata", { detail: metadata }));
+  let isStreamStopped = false; // Flag to track if the stream is stopped
+
+  const createContentEvent = (text) => {
+    if (!isStreamStopped) {
+      stream.dispatchEvent(new CustomEvent("content", { detail: text }));
+    }
+  };
+
+  const createMetadataEvent = (metadata) => {
+    if (!isStreamStopped) {
+      stream.dispatchEvent(new CustomEvent("metadata", { detail: metadata }));
+    }
+  };
+
   const createDoneEvent = (text) => {
-    stream.dispatchEvent(new CustomEvent("done", { detail: text }));
+    if (!isStreamStopped) {
+      stream.dispatchEvent(new CustomEvent("done", { detail: text }));
+      isStreamStopped = true; // Mark the stream as stopped
+    }
   };
 
   askGpt(chat, metadata, createContentEvent, createMetadataEvent, createDoneEvent);
+
+  // Add a method to stop the stream
+  stream.stopStream = () => {
+    isStreamStopped = true;
+  };
+
   return stream;
 }
+
 
 export function fakeGptEventStream(message) {
   const stream = new EventTarget();
@@ -63,6 +97,15 @@ export function fakeGptEventStream(message) {
   return stream;
 }
 
+let abortController = undefined;
+
+export function killStream() {
+  if (abortController !== undefined) {
+    abortController.abort();
+    abortController = undefined;
+  }
+}
+
 /**
  * 
  * @param {*} chat ['utterance': 'userMsg', 'speaker': 'user']
@@ -72,7 +115,7 @@ export function fakeGptEventStream(message) {
 export function askGpt(chat, metadata, onText, onMetadata, onFinish) {
   let writeMarkdown = "";
   onText("", false);
-  let abortController = new AbortController();
+  abortController = new AbortController();
   const options = {
     method: 'POST',
     headers: {

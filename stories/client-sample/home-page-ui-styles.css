@@ -131,8 +131,9 @@ body {
 }
 
 .chat-ui-controller-btns-ctr * {
-    /* display: flex; */
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+    /* display: block; */
     box-sizing: border-box;
     justify-content: center;
     align-items: center;
@@ -146,5 +147,6 @@ body {
     font-size: 14px;
     font-style: normal;
     font-weight: 500;
+    flex-basis: 100%;
 
 }

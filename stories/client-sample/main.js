@@ -1,5 +1,9 @@
 const headerText = `Greetings, human! Let's put a smile on that face! Tell us what you need and brace yourself for some fun!`
 const buttonsText = [['CREATE', 'I know what I want'],[ 'EXPLORE', `I need some inspiration`], ['KEEP SCROLLING', 'Learn more about One AI']];
+const finishedHeader = 'Yo! we got your information. you can keep scrolling and learn more about what we do.'
+const comeBackHeader = 'Yo! you didn’t finish the chat. you can return anytime to give us all information needed.'
+const comebackButtons = ['RETURN TO CHAT', 'RESTART']
+const finishedButtons = ['RESTART']
 
 function createHomePageMain() {
     // createChatUI({wrapper: document.body});
@@ -69,7 +73,8 @@ function createInterface(headerText, buttonsText) {
 
 //cb for closing OneAgent
 function onCloseCallback() {
-    console.log('pooping');
+
+    //HOW WILL WE TRIGGER THE STREAM TO STOP
     document.querySelector('.sidebar-wrapper.fade-in').classList.toggle('fade-in');
     document.querySelector('.sidebar-wrapper').classList.add('fade-out');
 }
@@ -94,14 +99,64 @@ function showBizGPTUI(event) {
 }
 
 function replaceHomePageBtns() { 
-    console.log('pooping')
-    for(const child of document.querySelector('.interface-wrapper').children){
-        child.remove();
+
+   while(document.querySelector('.chat-ui-controller-btns-ctr').firstChild !== null){
+    if(document.querySelector('.chat-ui-controller-btns-ctr').firstChild !== null){
+        document.querySelector('.chat-ui-controller-btns-ctr').firstChild.remove();
     }
+   }
 
-
+   createComeBackUI(false, restartCallback, returnToChatCallback);
 }
 
+
+function createComeBackUI(finished, restartCallback, returnCallback){
+    //replace txt in the header
+    const headerText = finished === true ? finishedHeader : comeBackHeader;
+    document.querySelector('.chat-ui-controller-header').firstChild.innerHTML = headerText; 
+
+    //create new buttons
+    bttnsContainer = document.querySelector('.chat-ui-controller-btns-ctr');
+
+    console.log(finished);
+    const btns = finished === true ? finishedButtons : comebackButtons;
+
+    console.log(btns);
+    for (const btnText of btns) {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'chat-ui-home-btns-wrapper';
+        const newSpan = document.createElement('span');
+        newSpan.innerText = btnText;
+
+        if(btnText === 'RESTART'){ 
+            wrapper.addEventListener('click', restartCallback);
+            wrapper.style.backgroundColor = '#00FFFF';
+            newSpan.style.backgroundColor = '#00FFFF';
+            newSpan.style.color = '#1D1C29';
+
+        }else if(btnText === 'RETURN TO CHAT'){ 
+            wrapper.addEventListener('click', returnCallback);
+            wrapper.style.backgroundColor = '#1D1C29';
+            newSpan.style.color = '#00FFFF';
+
+        }
+        wrapper.append(newSpan)
+        bttnsContainer.append(wrapper);
+    }
+}
+
+function returnToChatCallback(){
+    showBizGPTUI();
+}
+
+function restartCallback(){
+    //remove ui and set boolean to false
+    document.querySelector('.chat-ui-wrapper').firstChild.remove();
+    chatUICreated = false;
+
+    //make a new ChatUI
+    showBizGPTUI();
+}
 
 
 function attachEventListeners(raiseUICallback) {
